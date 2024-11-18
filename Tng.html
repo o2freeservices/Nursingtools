@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاسبه دوز نیتروگلیسرین در سرم میکروست</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: center;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4ca1af;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #35788e;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>محاسبه دوز نیتروگلیسرین در میکروست</h2>
+    <label for="dose">دوز مورد نیاز (میکروگرم در دقیقه):</label>
+    <input type="number" id="dose" placeholder="مثلاً 50" required>
+    <label for="concentration">غلظت نیتروگلیسرین در ۱۰۰ سی‌سی (میلی‌گرم):</label>
+    <input type="number" id="concentration" placeholder="مثلاً 5" required>
+    <button onclick="calculateDrops()">محاسبه</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    function calculateDrops() {
+        const dose = parseFloat(document.getElementById("dose").value);
+        const concentration = parseFloat(document.getElementById("concentration").value);
+
+        if (!dose || !concentration) {
+            document.getElementById("result").innerText = "لطفاً دوز و غلظت را به‌طور معتبر وارد کنید.";
+            return;
+        }
+
+        // تبدیل غلظت از میلی‌گرم در ۱۰۰ میلی‌لیتر به میکروگرم در میلی‌لیتر
+        const concentrationInMicrogramsPerMl = (concentration * 1000) / 100;
+
+        // محاسبه میلی‌لیتر در دقیقه بر اساس دوز و غلظت
+        const mlPerMinute = dose / concentrationInMicrogramsPerMl;
+
+        // محاسبه تعداد قطرات در دقیقه (میکروست: 60 قطره در میلی‌لیتر)
+        const dropsPerMinute = (mlPerMinute * 60).toFixed(2);
+
+        document.getElementById("result").innerText = `تعداد قطرات در دقیقه: ${dropsPerMinute} قطره`;
+    }
+</script>
+
+</body>
+</html>

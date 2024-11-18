@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاسبه مقیاس مورس و برادن - نسخه کامل</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+        }
+        h1 {
+            color: #00796b;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            margin: 20px 0 10px;
+            color: #004d40;
+            font-size: 1.2rem;
+        }
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 1rem;
+            border: 2px solid #00796b;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #00796b;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #004d40;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f1f8e9;
+            border-radius: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>محاسبه مقیاس مورس و برادن - نسخه کامل</h1>
+
+    <!-- انتخاب گروه سنی -->
+    <label for="ageGroup">گروه سنی</label>
+    <select id="ageGroup" onchange="showSections()">
+        <option value="">انتخاب کنید</option>
+        <option value="adult">بزرگسال</option>
+        <option value="pediatric">اطفال</option>
+    </select>
+
+    <!-- بخش مقیاس مورس -->
+    <div id="morseSection" style="display: none;">
+        <h2 class="section-title">مقیاس مورس</h2>
+        
+        <!-- فیلدهای مقیاس مورس برای بزرگسالان -->
+        <div id="morseAdult" style="display: none;">
+            <label for="historyAdult">تاریخچه سقوط</label>
+            <select id="historyAdult">
+                <option value="">انتخاب کنید</option>
+                <option value="0">بدون تاریخچه سقوط (۰ امتیاز)</option>
+                <option value="25">تاریخچه سقوط دارد (۲۵ امتیاز)</option>
+            </select>
+
+            <label for="secondaryDiagnosisAdult">تشخیص ثانویه</label>
+            <select id="secondaryDiagnosisAdult">
+                <option value="">انتخاب کنید</option>
+                <option value="0">ندارد (۰ امتیاز)</option>
+                <option value="15">دارد (۱۵ امتیاز)</option>
+            </select>
+
+            <label for="ambulanceAidAdult">کمک برای حرکت</label>
+            <select id="ambulanceAidAdult">
+                <option value="">انتخاب کنید</option>
+                <option value="0">بدون کمک (۰ امتیاز)</option>
+                <option value="15">عصا/واکِر (۱۵ امتیاز)</option>
+                <option value="30">ثابت (۳۰ امتیاز)</option>
+            </select>
+
+            <label for="ivAdult">تزریق وریدی</label>
+            <select id="ivAdult">
+                <option value="">انتخاب کنید</option>
+                <option value="0">ندارد (۰ امتیاز)</option>
+                <option value="20">دارد (۲۰ امتیاز)</option>
+            </select>
+
+            <label for="gaitAdult">وضعیت راه رفتن</label>
+            <select id="gaitAdult">
+                <option value="">انتخاب کنید</option>
+                <option value="0">طبیعی (۰ امتیاز)</option>
+                <option value="10">ضعیف (۱۰ امتیاز)</option>
+                <option value="20">بسیار ضعیف (۲۰ امتیاز)</option>
+            </select>
+
+            <label for="mentalStatusAdult">وضعیت ذهنی</label>
+            <select id="mentalStatusAdult">
+                <option value="">انتخاب کنید</option>
+                <option value="0">آگاه به محدودیت‌ها (۰ امتیاز)</option>
+                <option value="15">عدم آگاهی به محدودیت‌ها (۱۵ امتیاز)</option>
+            </select>
+        </div>
+        <!-- فیلدهای مقیاس مورس برای اطفال -->
+        <div id="morsePediatric" style="display: none;">
+            <label for="pediatricHistory">تاریخچه سقوط</label>
+            <select id="pediatricHistory">
+                <option value="">انتخاب کنید</option>
+                <option value="0">بدون تاریخچه سقوط (۰ امتیاز)</option>
+                <option value="20">تاریخچه سقوط دارد (۲۰ امتیاز)</option>
+            </select>
+
+            <label for="secondaryDiagnosisPediatric">تشخیص ثانویه</label>
+            <select id="secondaryDiagnosisPediatric">
+                <option value="">انتخاب کنید</option>
+                <option value="0">ندارد (۰ امتیاز)</option>
+                <option value="10">دارد (۱۰ امتیاز)</option>
+            </select>
+
+            <label for="ambulanceAidPediatric">کمک برای حرکت</label>
+            <select id="ambulanceAidPediatric">
+                <option value="">انتخاب کنید</option>
+                <option value="0">بدون کمک (۰ امتیاز)</option>
+                <option value="10">عصا/واکِر (۱۰ امتیاز)</option>
+                <option value="20">ثابت (۲۰ امتیاز)</option>
+            </select>
+
+            <label for="ivPediatric">تزریق وریدی</label>
+            <select id="ivPediatric">
+                <option value="">انتخاب کنید</option>
+                <option value="0">ندارد (۰ امتیاز)</option>
+                <option value="10">دارد (۱۰ امتیاز)</option>
+            </select>
+
+            <label for="gaitPediatric">وضعیت راه رفتن</label>
+            <select id="gaitPediatric">
+                <option value="">انتخاب کنید</option>
+                <option value="0">طبیعی (۰ امتیاز)</option>
+                <option value="5">ضعیف (۵ امتیاز)</option>
+                <option value="10">بسیار ضعیف (۱۰ امتیاز)</option>
+            </select>
+
+            <label for="mentalStatusPediatric">وضعیت ذهنی</label>
+            <select id="mentalStatusPediatric">
+                <option value="">انتخاب کنید</option>
+                <option value="0">آگاه به محدودیت‌ها (۰ امتیاز)</option>
+                <option value="10">عدم آگاهی به محدودیت‌ها (۱۰ امتیاز)</option>
+            </select>
+        </div>
+
+        <button onclick="calculateMorse()">محاسبه مقیاس مورس</button>
+        <div class="error" id="morseError">لطفاً همه گزینه‌ها را انتخاب کنید.</div>
+        <div class="result" id="morseResult">نتیجه مقیاس مورس: -</div>
+    </div>
+    <!-- بخش مقیاس برادن -->
+    <div id="bradenSection" style="display: none;">
+        <h2 class="section-title">مقیاس برادن</h2>
+
+        <!-- فیلدهای مقیاس برادن برای بزرگسالان -->
+        <div id="bradenAdult" style="display: none;">
+            <label for="sensoryAdult">حساسیت حسی</label>
+            <select id="sensoryAdult">
+                <option value="">انتخاب کنید</option>
+                <option value="4">بدون محدودیت (۴ امتیاز)</option>
+                <option value="3">محدود (۳ امتیاز)</option>
+                <option value="2">بسیار محدود (۲ امتیاز)</option>
+                <option value="1">کاملاً محدود (۱ امتیاز)</option>
+            </select>
+
+            <label for="moistureAdult">رطوبت</label>
+            <select id="moistureAdult">
+                <option value="">انتخاب کنید</option>
+                <option value="4">نادر (۴ امتیاز)</option>
+                <option value="3">گاهی (۳ امتیاز)</option>
+                <option value="2">معمولاً مرطوب (۲ امتیاز)</option>
+                <option value="1">مرطوب مداوم (۱ امتیاز)</option>
+            </select>
+
+            <label for="activityAdult">فعالیت</label>
+            <select id="activityAdult">
+                <option value="">انتخاب کنید</option>
+                <option value="4">راه رفتن مکرر (۴ امتیاز)</option>
+                <option value="3">راه رفتن گاه به گاه (۳ امتیاز)</option>
+                <option value="2">نشستن بیشتر زمان‌ها (۲ امتیاز)</option>
+                <option value="1">بی‌حرکت (۱ امتیاز)</option>
+            </select>
+
+            <label for="mobilityAdult">حرکت</label>
+            <select id="mobilityAdult">
+                <option value="">انتخاب کنید</option>
+                <option value="4">بدون محدودیت (۴ امتیاز)</option>
+                <option value="3">کمی محدود (۳ امتیاز)</option>
+                <option value="2">بسیار محدود (۲ امتیاز)</option>
+                <option value="1">کاملاً محدود (۱ امتیاز)</option>
+            </select>
+
+            <label for="nutritionAdult">تغذیه</label>
+            <select id="nutritionAdult">
+                <option value="">انتخاب کنید</option>
+                <option value="4">غذای مناسب (۴ امتیاز)</option>
+                <option value="3">کمی نامناسب (۳ امتیاز)</option>
+                <option value="2">بیشتر نامناسب (۲ امتیاز)</option>
+                <option value="1">بسیار ضعیف (۱ امتیاز)</option>
+            </select>
+
+            <label for="frictionAdult">اصطکاک و فشار</label>
+            <select id="frictionAdult">
+                <option value="">انتخاب کنید</option>
+                <option value="3">بدون مشکل (۳ امتیاز)</option>
+                <option value="2">مشکل کوچک (۲ امتیاز)</option>
+                <option value="1">مشکل شدید (۱ امتیاز)</option>
+            </select>
+        </div>
+
+        <!-- فیلدهای مقیاس برادن برای اطفال -->
+        <div id="bradenPediatric" style="display: none;">
+            <label for="sensoryPediatric">حساسیت حسی</label>
+            <select id="sensoryPediatric">
+                <option value="">انتخاب کنید</option>
+                <option value="4">بدون محدودیت (۴ امتیاز)</option>
+                <option value="3">محدود (۳ امتیاز)</option>
+                <option value="2">بسیار محدود (۲ امتیاز)</option>
+                <option value="1">کاملاً محدود (۱ امتیاز)</option>
+            </select>
+
+            <label for="moisturePediatric">رطوبت</label>
+            <select id="moisturePediatric">
+                <option value="">انتخاب کنید</option>
+                <option value="4">نادر (۴ امتیاز)</option>
+                <option value="3">گاهی (۳ امتیاز)</option>
+                <option value="2">معمولاً مرطوب (۲ امتیاز)</option>
+                <option value="1">مرطوب مداوم (۱ امتیاز)</option>
+            </select>
+
+            <label for="activityPediatric">فعالیت</label>
+            <select id="activityPediatric">
+                <option value="">انتخاب کنید</option>
+                <option value="4">راه رفتن مکرر (۴ امتیاز)</option>
+                <option value="3">راه رفتن گاه به گاه (۳ امتیاز)</option>
+                <option value="2">نشستن بیشتر زمان‌ها (۲ امتیاز)</option>
+                <option value="1">بی‌حرکت (۱ امتیاز)</option>
+            </select>
+
+            <label for="mobilityPediatric">حرکت</label>
+            <select id="mobilityPediatric">
+                <option value="">انتخاب کنید</option>
+                <option value="4">بدون محدودیت (۴ امتیاز)</option>
+                <option value="3">کمی محدود (۳ امتیاز)</option>
+                <option value="2">بسیار محدود (۲ امتیاز)</option>
+                <option value="1">کاملاً محدود (۱ امتیاز)</option>
+            </select>
+
+            <label for="nutritionPediatric">تغذیه</label>
+            <select id="nutritionPediatric">
+                <option value="">انتخاب کنید</option>
+                <option value="4">غذای مناسب (۴ امتیاز)</option>
+                <option value="3">کمی نامناسب (۳ امتیاز)</option>
+                <option value="2">بیشتر نامناسب (۲ امتیاز)</option>
+                <option value="1">بسیار ضعیف (۱ امتیاز)</option>
+            </select>
+
+            <label for="frictionPediatric">اصطکاک و فشار</label>
+            <select id="frictionPediatric">
+                <option value="">انتخاب کنید</option>
+                <option value="3">بدون مشکل (۳ امتیاز)</option>
+                <option value="2">مشکل کوچک (۲ امتیاز)</option>
+                <option value="1">مشکل شدید (۱ امتیاز)</option>
+            </select>
+        </div>
+
+        <button onclick="calculateBraden()">محاسبه مقیاس برادن</button>
+        <div class="error" id="bradenError">لطفاً همه گزینه‌ها را انتخاب کنید.</div>
+        <div class="result" id="bradenResult">نتیجه مقیاس برادن: -</div>
+    </div>
+</div>
+<script>
+    function showSections() {
+        const ageGroup = document.getElementById("ageGroup").value;
+        document.getElementById("morseSection").style.display = ageGroup ? "block" : "none";
+        document.getElementById("bradenSection").style.display = ageGroup ? "block" : "none";
+        document.getElementById("morseAdult").style.display = ageGroup === "adult" ? "block" : "none";
+        document.getElementById("bradenAdult").style.display = ageGroup === "adult" ? "block" : "none";
+        document.getElementById("morsePediatric").style.display = ageGroup === "pediatric" ? "block" : "none";
+        document.getElementById("bradenPediatric").style.display = ageGroup === "pediatric" ? "block" : "none";
+    }
+
+    function calculateMorse() {
+        const ageGroup = document.getElementById("ageGroup").value;
+        const elements = ageGroup === "adult" 
+            ? ["historyAdult", "secondaryDiagnosisAdult", "ambulanceAidAdult", "ivAdult", "gaitAdult", "mentalStatusAdult"]
+            : ["pediatricHistory", "secondaryDiagnosisPediatric", "ambulanceAidPediatric", "ivPediatric", "gaitPediatric", "mentalStatusPediatric"];
+        
+        const values = elements.map(id => parseInt(document.getElementById(id).value));
+        
+        if (values.includes(NaN)) {
+            document.getElementById("morseError").style.display = "block";
+            return;
+        } else {
+            document.getElementById("morseError").style.display = "none";
+        }
+        
+        const morseScore = values.reduce((a, b) => a + b, 0);
+        let riskLevel = morseScore > 45 ? "خطر بالا" : morseScore >= 25 ? "خطر متوسط" : "خطر پایین";
+        document.getElementById("morseResult").innerText = `نتیجه مقیاس مورس: ${morseScore} (${riskLevel})`;
+    }
+
+    function calculateBraden() {
+        const ageGroup = document.getElementById("ageGroup").value;
+        const elements = ageGroup === "adult" 
+            ? ["sensoryAdult", "moistureAdult", "activityAdult", "mobilityAdult", "nutritionAdult", "frictionAdult"]
+            : ["sensoryPediatric", "moisturePediatric", "activityPediatric", "mobilityPediatric", "nutritionPediatric", "frictionPediatric"];
+
+        const values = elements.map(id => parseInt(document.getElementById(id).value));
+
+        if (values.includes(NaN)) {
+            document.getElementById("bradenError").style.display = "block";
+            return;
+        } else {
+            document.getElementById("bradenError").style.display = "none";
+        }
+        
+        const bradenScore = values.reduce((a, b) => a + b, 0);
+        let riskLevel = bradenScore <= 14 ? "خطر بالا" : bradenScore <= 18 ? "خطر متوسط" : "خطر پایین";
+        document.getElementById("bradenResult").innerText = `نتیجه مقیاس برادن: ${bradenScore} (${riskLevel})`;
+    }
+</script>
+</body>
+</html>

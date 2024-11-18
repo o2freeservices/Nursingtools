@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داروهای قلب و عروق و فشار خون</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            background-color: #f7f9fc;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+        }
+        .container {
+            max-width: 900px;
+            width: 90%;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #2a5298;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        select, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #2a5298;
+            cursor: pointer;
+        }
+        #drug-info {
+            margin-top: 20px;
+            text-align: right;
+            line-height: 1.6;
+        }
+        .info-title {
+            color: #2a5298;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>داروهای قلب و عروق و فشار خون</h1>
+    <p>دسته دارویی مورد نظر خود را انتخاب کنید تا اطلاعات بیشتری مشاهده نمایید.</p>
+    
+    <!-- انتخاب دسته دارویی -->
+    <select id="drug-select">
+        <option value="">-- انتخاب دسته دارویی --</option>
+        <option value="BetaBlockers">بتابلوکرها (Beta-Blockers)</option>
+        <option value="ACEInhibitors">مهارکننده‌های ACE (ACE Inhibitors)</option>
+        <option value="ARBs">مسدودکننده‌های گیرنده آنژیوتانسین II (ARBs)</option>
+        <option value="CalciumChannelBlockers">مسدودکننده‌های کانال کلسیم (Calcium Channel Blockers)</option>
+        <option value="Diuretics">دیورتیک‌ها (Diuretics)</option>
+        <option value="Vasodilators">گشادکننده‌های عروق مستقیم (Direct Vasodilators)</option>
+        <option value="Nitrates">نیتراتها (Nitrates)</option>
+        <option value="CardiacGlycosides">گلیکوزیدهای قلبی (Cardiac Glycosides)</option>
+        <option value="Anticoagulants">آنتی‌کواگولانت‌ها (Anticoagulants)</option>
+        <option value="Antiplatelets">داروهای ضدپلاکت (Antiplatelet Agents)</option>
+        <option value="Antiarrhythmics">آنتی‌آریتمیک‌ها (Antiarrhythmics)</option>
+        <option value="InotropicAgents">داروهای اینوتروپیک مثبت (Positive Inotropic Agents)</option>
+        <option value="Vasopressors">وازوپرسورها (Vasopressors)</option>
+    </select>
+    <button onclick="showDrugInfo()">مشاهده اطلاعات</button>
+
+    <!-- نمایش اطلاعات دسته دارویی -->
+    <div id="drug-info"></div>
+</div>
+<script>
+    function showDrugInfo() {
+        const drugCategory = document.getElementById('drug-select').value;
+        const infoDiv = document.getElementById('drug-info');
+        infoDiv.innerHTML = ''; // پاک کردن محتوای قبلی
+
+        let infoContent = '';
+
+        switch (drugCategory) {
+            case 'BetaBlockers':
+                infoContent = `
+                    <div class="info-title">نام دسته دارویی:</div> بتابلوکرها (Beta-Blockers)
+                    <div class="info-title">مثال‌ها:</div> آتنولول، متوپرولول، پروپرانولول، کارودیلول، بیسوپرولول، نادولول، لابتالول، تیمولول، اسملول، سوتالول
+                    <div class="info-title">نحوه عملکرد:</div> بتابلوکرها با مسدود کردن گیرنده‌های بتا-آدرنرژیک در قلب و عروق، ضربان قلب و فشار خون را کاهش می‌دهند و باعث کاهش نیاز قلب به اکسیژن می‌شوند.
+                    <div class="info-title">موارد استفاده:</div> کنترل فشار خون بالا، درمان آنژین صدری، پیشگیری از سکته قلبی، درمان نارسایی قلبی و کنترل برخی آریتمی‌ها.
+                    <div class="info-title">عوارض جانبی:</div> خستگی، سرگیجه، کاهش ضربان قلب، افت فشار خون، افسردگی، سردی دست و پا و خواب‌آلودگی.
+                    <div class="info-title">ملاحظات پرستاری:</div> پایش منظم فشار خون و ضربان قلب قبل از تجویز دارو، توصیه به بیمار برای قطع نکردن ناگهانی دارو، احتیاط در بیماران مبتلا به آسم و COPD.
+                `;
+                break;
+            case 'ACEInhibitors':
+                infoContent = `
+                    <div class="info-title">نام دسته دارویی:</div> مهارکننده‌های ACE (ACE Inhibitors)
+                    <div class="info-title">مثال‌ها:</div> انالاپریل، لیزینوپریل، کاپتوپریل، رامپریل، کوئیناپریل، بنزاپریل، موکسیپریل، پریندوپریل، تراندولاپریل
+                    <div class="info-title">نحوه عملکرد:</div> مهارکننده‌های ACE با جلوگیری از تبدیل آنژیوتانسین I به آنژیوتانسین II، باعث گشاد شدن عروق و کاهش فشار خون می‌شوند.
+                    <div class="info-title">موارد استفاده:</div> کنترل فشار خون، کاهش خطر نارسایی قلبی، بهبود عملکرد قلب پس از سکته قلبی و حفاظت از کلیه‌ها در بیماران دیابتی.
+                    <div class="info-title">عوارض جانبی:</div> سرفه خشک، افت فشار خون، افزایش سطح پتاسیم خون، نارسایی کلیه و آنژیوادم.
+                    <div class="info-title">ملاحظات پرستاری:</div> پایش سطح پتاسیم خون، فشار خون و عملکرد کلیه، آموزش به بیمار برای گزارش هرگونه تورم و سرفه مداوم.
+                `;
+                break;
+            case 'ARBs':
+                infoContent = `
+                    <div class="info-title">نام دسته دارویی:</div> مسدودکننده‌های گیرنده آنژیوتانسین II (ARBs)
+                    <div class="info-title">مثال‌ها:</div> لوزارتان، والزارتان، ایربسارتان، کاندسارتان، اولمسارتان، تلمیسارتان، ازیلزارتان
+                    <div class="info-title">نحوه عملکرد:</div> ARBs با مسدود کردن گیرنده‌های آنژیوتانسین II، از انقباض عروق جلوگیری می‌کنند و به کاهش فشار خون کمک می‌کنند.
+                    <div class="info-title">موارد استفاده:</div> درمان فشار خون بالا، نارسایی قلبی و حفاظت از کلیه‌ها در بیماران دیابتی.
+                    <div class="info-title">عوارض جانبی:</div> افت فشار خون، افزایش سطح پتاسیم خون، سرگیجه و خستگی.
+                    <div class="info-title">ملاحظات پرستاری:</div> پایش فشار خون و سطح پتاسیم خون، آموزش به بیمار برای تغییر تدریجی وضعیت به منظور جلوگیری از سرگیجه.
+                `;
+                break;
+            case 'CalciumChannelBlockers':
+                infoContent = `
+                    <div class="info-title">نام دسته دارویی:</div> مسدودکننده‌های کانال کلسیم (Calcium Channel Blockers)
+                    <div class="info-title">مثال‌ها:</div> آملودیپین، نیفدیپین، دیلتیازم، وراپامیل، فلودیپین، نیکاردیپین، نیمودیپین، کلسیپیدین، بپریدیل
+                    <div class="info-title">نحوه عملکرد:</div> مسدودکننده‌های کانال کلسیم با جلوگیری از ورود کلسیم به سلول‌های عضلانی قلب و عروق، عروق را گشاد کرده و فشار خون را کاهش می‌دهند.
+                    <div class="info-title">موارد استفاده:</div> کنترل فشار خون بالا، درمان آنژین صدری و برخی آریتمی‌ها.
+                    <div class="info-title">عوارض جانبی:</div> ورم پاها، افت فشار خون، سردرد، سرگیجه و یبوست.
+                    <div class="info-title">ملاحظات پرستاری:</div> پایش فشار خون و نبض، آموزش به بیمار درباره علائم افت فشار و گزارش هرگونه ورم یا سرگیجه.
+                `;
+                break;
+            case 'Diuretics':
+                infoContent = `
+                    <div class="info-title">نام دسته دارویی:</div> دیورتیک‌ها (Diuretics)
+                    <div class="info-title">مثال‌ها:</div> هیدروکلروتیازید، فوروزماید، اسپیرونولاکتون، کلرتالیدون، بومتانید، آمیلوراید، متولازون، اینداپامید، تریامترن
+                    <div class="info-title">نحوه عملکرد:</div> دیورتیک‌ها با افزایش دفع نمک و آب از کلیه‌ها، باعث کاهش حجم خون و در نتیجه کاهش فشار خون می‌شوند.
+                    <div class="info-title">موارد استفاده:</div> درمان فشار خون بالا، نارسایی قلبی، ادم و برخی اختلالات کلیوی.
+                    <div class="info-title">عوارض جانبی:</div> کاهش پتاسیم و سدیم خون، افت فشار خون، دهیدراسیون، افزایش سطح اسید اوریک و اختلالات الکترولیتی.
+                    <div class="info-title">ملاحظات پرستاری:</div> پایش سطح الکترولیت‌ها، فشار خون و آموزش به بیمار درباره مصرف منظم آب و نمک برای جلوگیری از دهیدراسیون.
+                `;
+                break;
+            case 'Vasodilators':
+                infoContent = `
+                    <div class="info-title">نام دسته دارویی:</div> گشادکننده‌های عروق مستقیم (Direct Vasodilators)
+                    <div class="info-title">مثال‌ها:</div> هیدرالازین، مینوکسیدیل، نیتروپروساید، فنوکسی‌بنزامین، دیازوکساید
+                    <div class="info-title">نحوه عملکرد:</div> این داروها مستقیماً باعث شل شدن عضلات دیواره عروق شده و باعث گشاد شدن عروق و کاهش فشار خون می‌شوند.
+                    <div class="info-title">موارد استفاده:</div> کنترل فشار خون بالا مقاوم و درمان بحران‌های فشار خون بالا.
+                    <div class="info-title">عوارض جانبی:</div> افزایش ضربان قلب، سردرد، احتباس مایعات، ورم و سرگیجه.
+                    <div class="info-title">ملاحظات پرستاری:</div> پایش فشار خون و نبض بیمار، توجه به علائم احتباس مایعات و تورم.
+                `;
+                break;
+            case 'Nitrates':
+                infoContent = `
+                    <div class="info-title">نام دسته دارویی:</div> نیتراتها (Nitrates)
+                    <div class="info-title">مثال‌ها:</div> نیتروگلیسرین، ایزوسورباید دی‌نیترات، ایزوسورباید مونونیترات، نیتروپروساید، نیتروبید، نیتروپچ
+                    <div class="info-title">نحوه عملکرد:</div> نیتراتها با گشاد کردن عروق کرونری، باعث افزایش جریان خون به عضله قلب و کاهش نیاز اکسیژن قلب می‌شوند.
+                    <div class="info-title">موارد استفاده:</div> درمان و پیشگیری از آنژین صدری، نارسایی قلبی و بحران‌های فشار خون.
+                    <div class="info-title">عوارض جانبی:</div> افت فشار خون، سرگیجه، سردرد، تپش قلب و گرگرفتگی.
+                    <div class="info-title">ملاحظات پرستاری:</div> پایش فشار خون، آموزش به بیمار درباره اجتناب از تغییر وضعیت ناگهانی و هشدار در مورد مصرف همزمان با داروهای کاهنده فشار خون.
+                `;
+                break;
+            case 'CardiacGlycosides':
+                infoContent = `
+                    <div class="info-title">نام دسته دارویی:</div> گلیکوزیدهای قلبی (Cardiac Glycosides)
+                    <div class="info-title">مثال‌ها:</div> دیگوکسین
+                    <div class="info-title">نحوه عملکرد:</div> دیگوکسین با افزایش قدرت انقباض قلب و کاهش ضربان قلب، عملکرد قلب را بهبود می‌بخشد.
+                    <div class="info-title">موارد استفاده:</div> درمان نارسایی قلبی و کنترل برخی آریتمی‌ها مانند فیبریلاسیون دهلیزی.
+                    <div class="info-title">عوارض جانبی:</div> تهوع، استفراغ، اسهال، تاری دید، بی‌اشتهایی و ضربان نامنظم قلب.
+                    <div class="info-title">ملاحظات پرستاری:</div> پایش سطح دیگوکسین خون، بررسی علائم سمیت دیگوکسین و آموزش به بیمار برای گزارش هرگونه علامت غیرمعمول.
+                `;
+                break;
+            case 'Anticoagulants':
+                infoContent = `
+                    <div class="info-title">نام دسته دارویی:</div> آنتی‌کواگولانت‌ها (Anticoagulants)
+                    <div class="info-title">مثال‌ها:</div> وارفارین، هپارین، انوکساپارین، ریواروکسابان، دابیگاتران، آپیکسابان، فونداپارینوکس
+                    <div class="info-title">نحوه عملکرد:</div> آنتی‌کواگولانت‌ها با جلوگیری از تشکیل لخته‌های خونی، خطر سکته قلبی و مغزی را کاهش می‌دهند.
+                    <div class="info-title">موارد استفاده:</div> پیشگیری و درمان لخته‌های خونی در بیماران با فیبریلاسیون دهلیزی، ترومبوز ورید عمقی و آمبولی ریوی.
+                    <div class="info-title">عوارض جانبی:</div> خونریزی، کبودی، تهوع، کاهش پلاکت‌ها.
+                    <div class="info-title">ملاحظات پرستاری:</div> پایش علائم خونریزی، سطح INR برای وارفارین، آموزش به بیمار درباره اجتناب از ضربه و گزارش هرگونه خونریزی.
+                `;
+                break;
+            case 'Antiplatelets':
+                infoContent = `
+                    <div class="info-title">نام دسته دارویی:</div> داروهای ضدپلاکت (Antiplatelet Agents)
+                    <div class="info-title">مثال‌ها:</div> آسپرین، کلوپیدوگرل، پراسوگرل، تیکاگرلور، دی‌پیریدامول، آبسی‌کسیماب، اپتی‌فایباتید
+                    <div class="info-title">نحوه عملکرد:</div> داروهای ضدپلاکت با جلوگیری از تجمع پلاکت‌ها، خطر تشکیل لخته خونی را کاهش می‌دهند.
+                    <div class="info-title">موارد استفاده:</div> پیشگیری از حملات قلبی و سکته مغزی در بیماران با سابقه بیماری‌های قلبی و پس از مداخلات عروقی.
+                    <div class="info-title">عوارض جانبی:</div> خونریزی، درد معده، سردرد، تهوع و کبودی.
+                    <div class="info-title">ملاحظات پرستاری:</div> پایش علائم خونریزی، آموزش به بیمار برای اجتناب از مصرف همزمان با داروهای افزایش‌دهنده خونریزی مانند NSAIDs.
+                `;
+                break;
+            case 'Antiarrhythmics':
+                infoContent = `
+                    <div class="info-title">نام دسته دارویی:</div> آنتی‌آریتمیک‌ها (Antiarrhythmics)
+                    <div class="info-title">مثال‌ها:</div> آمیودارون، لیدوکائین، پروکائینامید، سوتالول، کینیدین، فلیساینید، پروپافنون، دیزوپیرامید، ابوتیلید
+                    <div class="info-title">نحوه عملکرد:</div> داروهای آنتی‌آریتمیک با تنظیم جریان الکتریکی قلب به جلوگیری یا درمان آریتمی‌های قلبی کمک می‌کنند.
+                    <div class="info-title">موارد استفاده:</div> درمان آریتمی‌های قلبی مانند فیبریلاسیون دهلیزی، تاکی‌کاردی بطنی و فیبریلاسیون بطنی.
+                    <div class="info-title">عوارض جانبی:</div> سرگیجه، تهوع، اختلال در عملکرد کبد، تغییر در ضربان قلب، مشکلات بینایی.
+                    <div class="info-title">ملاحظات پرستاری:</div> پایش الکتروکاردیوگرام (ECG)، سطح خونی دارو و توجه به علائم سمیت دارو.
+                `;
+                break;
+            case 'InotropicAgents':
+                infoContent = `
+                    <div class="info-title">نام دسته دارویی:</div> داروهای اینوتروپیک مثبت (Positive Inotropic Agents)
+                    <div class="info-title">مثال‌ها:</div> دوپامین، دوبوتامین، میلرینون، لووزیمندان
+                    <div class="info-title">نحوه عملکرد:</div> داروهای اینوتروپیک مثبت قدرت انقباض عضله قلب را افزایش می‌دهند، که در بهبود عملکرد قلب موثر است.
+                    <div class="info-title">موارد استفاده:</div> درمان نارسایی قلبی شدید و بهبود عملکرد قلب در بیماران بستری در ICU.
+                    <div class="info-title">عوارض جانبی:</div> افزایش ضربان قلب، سردرد، تهوع، بی‌قراری، فشار خون بالا.
+                    <div class="info-title">ملاحظات پرستاری:</div> پایش دقیق وضعیت همودینامیک بیمار و فشار خون، توجه به علائم بی‌قراری و تغییرات در ضربان قلب.
+                `;
+                break;
+            case 'Vasopressors':
+                infoContent = `
+                    <div class="info-title">نام دسته دارویی:</div> وازوپرسورها (Vasopressors)
+                    <div class="info-title">مثال‌ها:</div> نوراپی‌نفرین، فنیل‌افرین، وازوپرسین، اپی‌نفرین، دوپامین (دوز بالا)
+                    <div class="info-title">نحوه عملکرد:</div> وازوپرسورها با انقباض عروق و افزایش مقاومت عروقی، باعث افزایش فشار خون در بیماران با شوک می‌شوند.
+                    <div class="info-title">موارد استفاده:</div> درمان شوک و کاهش شدید فشار خون در بیمارانی که نیاز به افزایش فوری فشار خون دارند.
+                    <div class="info-title">عوارض جانبی:</div> افزایش شدید فشار خون، آریتمی‌ها، سردرد، تهوع و اختلال در گردش خون.
+                    <div class="info-title">ملاحظات پرستاری:</div> پایش دقیق فشار خون، ضربان قلب و وضعیت اندام‌ها به دلیل خطر ایسکمی.
+                `;
+                break;
+            default:
+                infoContent = '<p>لطفاً یک دسته دارویی را انتخاب کنید.</p>';
+        }
+
+        infoDiv.innerHTML = infoContent;
+    }
+</script>
+
+</body>
+</html>

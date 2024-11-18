@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آموزش انواع سرم‌ها</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+        }
+        .container {
+            max-width: 800px;
+            width: 90%;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #00796b;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        select, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #00796b;
+            cursor: pointer;
+        }
+        #serum-info {
+            margin-top: 20px;
+            text-align: right;
+            line-height: 1.6;
+        }
+        .info-title {
+            color: #00796b;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>آموزش انواع سرم‌ها</h1>
+    <p>سرم مورد نظر خود را انتخاب کنید تا اطلاعات بیشتری مشاهده نمایید.</p>
+    
+    <!-- انتخاب سرم -->
+    <select id="serum-select">
+        <option value="">-- انتخاب سرم --</option>
+        <option value="NS">نرمال سالین (Normal Saline - NS)</option>
+        <option value="D5W">دکستروز ۵٪ (Dextrose 5% - D5W)</option>
+        <option value="RL">رینگر لاکتات (Ringer’s Lactate - RL / سرم هارتمان)</option>
+        <option value="HalfNS">نیم‌سالین (Half Normal Saline - Half NS)</option>
+        <option value="D10W">دکستروز ۱۰٪ (Dextrose 10% - D10W)</option>
+        <option value="DNS">دکستروز نرمال سالین (Dextrose Normal Saline - DNS)</option>
+        <option value="DSHalfNS">دکستروز و نیم‌سالین (Dextrose with Half NS)</option>
+        <option value="D5RL">دکستروز و رینگر لاکتات (Dextrose 5% with RL)</option>
+        <option value="Mannitol">مانیتول (Mannitol)</option>
+        <option value="Albumin">آلبومین (Albumin)</option>
+        <option value="Hetastarch">هتاستارچ (Hetastarch)</option>
+        <option value="3Saline">سرم ۳٪ سالین (Hypertonic Saline 3%)</option>
+        <option value="5Saline">سرم ۵٪ سالین (Hypertonic Saline 5%)</option>
+        <option value="7.5Saline">سرم ۷.۵٪ سالین (Hypertonic Saline 7.5%)</option>
+        <option value="Dextran">دکستران (Dextran)</option>
+        <option value="Intralipid">اینترالیپید (Intralipid)</option>
+        <option value="AminoAcid">آمینواسید (Amino Acid Infusion)</option>
+        <option value="Frusemide">فریزیوم (Frusemide with Saline)</option>
+        <option value="PotassiumPhosphate">فسفات پتاسیم (Potassium Phosphate Infusion)</option>
+        <option value="PlasmaLyte">پلاسما لایت (PlasmaLyte)</option>
+        <option value="Dextrose20">دکستروز ۲۰٪ (Dextrose 20%)</option>
+        <option value="Lipofundin">لیپوفوندین (Lipofundin)</option>
+        <option value="SodiumBicarbonate">بی‌کربنات سدیم (Sodium Bicarbonate)</option>
+        <option value="RingerAcetate">رینگر استات (Ringer Acetate)</option>
+        <option value="OneThirdTwoThird">سرم یک‌سوم دو‌سوم (1/3 - 2/3 Solution)</option>
+        <option value="DextroseSaline">سرم قندی - نمکی (Dextrose with Saline)</option>
+    </select>
+    <button onclick="showSerumInfo()">مشاهده اطلاعات</button>
+
+    <!-- نمایش اطلاعات سرم -->
+    <div id="serum-info"></div>
+</div>
+<script>
+    function showSerumInfo() {
+        const serum = document.getElementById('serum-select').value;
+        const infoDiv = document.getElementById('serum-info');
+        infoDiv.innerHTML = ''; // پاک کردن محتوای قبلی
+
+        let infoContent = '';
+
+        switch (serum) {
+            case 'NS':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> نرمال سالین (Normal Saline - NS)
+                    <div class="info-title">مورد مصرف:</div> جبران مایعات، درمان هیپوولمی، و شستشوی زخم‌ها
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی با سرعت مناسب بر اساس نیاز بیمار
+                    <div class="info-title">تداخلات دارویی:</div> ممکن است با داروهای خاصی مانند پتاسیم وریدی تداخل داشته باشد
+                    <div class="info-title">عوارض جانبی:</div> تورم، افزایش فشار خون و هایپوناترمی
+                    <div class="info-title">نکات مهم:</div> در بیماران با نارسایی قلبی و کلیوی با احتیاط مصرف شود.
+                `;
+                break;
+            case 'D5W':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> دکستروز ۵٪ (Dextrose 5% - D5W)
+                    <div class="info-title">مورد مصرف:</div> جبران مایعات و تأمین انرژی
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی با سرعت پایین برای جلوگیری از افزایش قند خون
+                    <div class="info-title">تداخلات دارویی:</div> تداخل با انسولین و سایر داروهای قند خون
+                    <div class="info-title">عوارض جانبی:</div> هایپرگلیسمی، دهیدراسیون سلولی
+                    <div class="info-title">نکات مهم:</div> در بیماران دیابتی با احتیاط مصرف شود.
+                `;
+                break;
+            case 'RL':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> رینگر لاکتات (Ringer’s Lactate - RL / سرم هارتمان)
+                    <div class="info-title">مورد مصرف:</div> جبران مایعات و الکترولیت‌ها در خونریزی‌ها و سوختگی‌ها
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی با سرعت متناسب با شرایط بیمار
+                    <div class="info-title">تداخلات دارویی:</div> تداخل با داروهای یون‌دار مانند دیورتیک‌ها
+                    <div class="info-title">عوارض جانبی:</div> آلکالوز متابولیک و هایپرکالمی
+                    <div class="info-title">نکات مهم:</div> در بیماران کلیوی و قلیایی بودن خون با احتیاط مصرف شود.
+                `;
+                break;
+            case 'HalfNS':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> نیم‌سالین (Half Normal Saline - Half NS)
+                    <div class="info-title">مورد مصرف:</div> جبران مایعات برای بیماران نیازمند سدیم کمتر
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی با سرعت متناسب با نیاز بیمار
+                    <div class="info-title">تداخلات دارویی:</div> تداخل با داروهای تنظیم‌کننده سدیم
+                    <div class="info-title">عوارض جانبی:</div> کاهش سدیم خون و کم‌آبی درون سلولی
+                    <div class="info-title">نکات مهم:</div> در بیماران با ریسک هیپوناترمی با احتیاط مصرف شود.
+                `;
+                break;
+            case 'D10W':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> دکستروز ۱۰٪ (Dextrose 10% - D10W)
+                    <div class="info-title">مورد مصرف:</div> جبران انرژی و هیپوگلیسمی شدید
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی با کنترل سطح قند خون
+                    <div class="info-title">تداخلات دارویی:</div> تداخل با انسولین و داروهای قند خون
+                    <div class="info-title">عوارض جانبی:</div> هایپرگلیسمی و اسیدوز لاکتیک
+                    <div class="info-title">نکات مهم:</div> برای بیماران دیابتی با احتیاط مصرف شود.
+                `;
+                break;
+            case 'DNS':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> دکستروز نرمال سالین (Dextrose Normal Saline - DNS)
+                    <div class="info-title">مورد مصرف:</div> جبران مایعات و قند، برای بیمارانی با نیاز به هر دو
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی با کنترل قند و الکترولیت‌ها
+                    <div class="info-title">تداخلات دارویی:</div> انسولین و سایر داروهای تنظیم قند خون
+                    <div class="info-title">عوارض جانبی:</div> هایپرگلیسمی، فشار خون بالا
+                    <div class="info-title">نکات مهم:</div> در بیماران دیابتی با دقت مصرف شود.
+                `;
+                break;
+            case 'DSHalfNS':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> دکستروز و نیم‌سالین (Dextrose with Half NS)
+                    <div class="info-title">مورد مصرف:</div> جبران مایعات و قند، برای بیماران با نیاز به سدیم کمتر
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی به صورت تدریجی
+                    <div class="info-title">تداخلات دارویی:</div> تداخل با داروهای تنظیم‌کننده سدیم و قند
+                    <div class="info-title">عوارض جانبی:</div> هایپرگلیسمی، هیپوناترمی
+                    <div class="info-title">نکات مهم:</div> در بیماران دیابتی با احتیاط مصرف شود.
+                `;
+                break;
+            case 'D5RL':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> دکستروز و رینگر لاکتات (Dextrose 5% with RL)
+                    <div class="info-title">مورد مصرف:</div> جبران همزمان مایعات و انرژی در شرایط خاص
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی تدریجی بر اساس نیاز بیمار
+                    <div class="info-title">تداخلات دارویی:</div> ممکن است با دیورتیک‌ها و داروهای قند خون تداخل داشته باشد
+                    <div class="info-title">عوارض جانبی:</div> هایپرگلیسمی، قلیایی شدن خون
+                    <div class="info-title">نکات مهم:</div> سطح قند خون و الکترولیت‌ها باید پایش شود.
+                `;
+                break;
+            case 'Mannitol':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> مانیتول (Mannitol)
+                    <div class="info-title">مورد مصرف:</div> کاهش فشار داخل جمجمه و درمان ادم مغزی
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی آهسته برای جلوگیری از سمیت کلیوی
+                    <div class="info-title">تداخلات دارویی:</div> تداخل با دیورتیک‌ها و داروهای کاهنده فشار خون
+                    <div class="info-title">عوارض جانبی:</div> کم‌آبی بدن، تغییرات الکترولیتی
+                    <div class="info-title">نکات مهم:</div> نظارت بر کلیه‌ها و الکترولیت‌ها ضروری است.
+                `;
+                break;
+            case 'Albumin':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> آلبومین (Albumin)
+                    <div class="info-title">مورد مصرف:</div> جبران پروتئین‌های پلاسما و درمان شوک هیپوولمیک
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی آهسته تحت نظارت
+                    <div class="info-title">تداخلات دارویی:</div> تداخل با داروهای کاهنده فشار خون
+                    <div class="info-title">عوارض جانبی:</div> آلرژی، افزایش بار کلیوی
+                    <div class="info-title">نکات مهم:</div> در بیماران کلیوی و حساسیت بالا با احتیاط مصرف شود.
+                `;
+                break;
+            case 'Hetastarch':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> هتاستارچ (Hetastarch)
+                    <div class="info-title">مورد مصرف:</div> جبران حجم خون در شوک هیپوولمیک
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی آهسته
+                    <div class="info-title">تداخلات دارویی:</div> دیورتیک‌ها و داروهای کاهنده فشار
+                    <div class="info-title">عوارض جانبی:</div> آلرژی، خونریزی
+                    <div class="info-title">نکات مهم:</div> در بیماران کلیوی و اختلالات انعقادی احتیاط شود.
+                `;
+                break;
+            case '3Saline':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> سرم ۳٪ سالین (Hypertonic Saline 3%)
+                    <div class="info-title">مورد مصرف:</div> درمان هایپوناترمی شدید
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی آهسته تحت نظارت
+                    <div class="info-title">تداخلات دارویی:</div> دیورتیک‌ها و داروهای الکترولیتی
+                    <div class="info-title">عوارض جانبی:</div> هایپرناترمی و فشار خون بالا
+                    <div class="info-title">نکات مهم:</div> در بیماران با فشار خون بالا احتیاط شود.
+                `;
+                break;
+            case '5Saline':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> سرم ۵٪ سالین (Hypertonic Saline 5%)
+                    <div class="info-title">مورد مصرف:</div> درمان هایپوناترمی شدید و ادم مغزی
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی آهسته تحت نظارت دقیق
+                    <div class="info-title">تداخلات دارویی:</div> دیورتیک‌ها و سایر داروهای تنظیم‌کننده سدیم
+                    <div class="info-title">عوارض جانبی:</div> هایپرناترمی و فشار خون بالا
+                    <div class="info-title">نکات مهم:</div> به‌ویژه در بیماران با نارسایی قلبی با احتیاط مصرف شود.
+                `;
+                break;
+            case '7.5Saline':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> سرم ۷.۵٪ سالین (Hypertonic Saline 7.5%)
+                    <div class="info-title">مورد مصرف:</div> درمان شدیدتر هایپوناترمی و ادم مغزی
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی آهسته و تحت نظارت پزشکی
+                    <div class="info-title">تداخلات دارویی:</div> تداخل با داروهای دیورتیک و داروهای ضد فشار خون
+                    <div class="info-title">عوارض جانبی:</div> هایپرناترمی شدید، خطر ادم ریوی
+                    <div class="info-title">نکات مهم:</div> در بیماران با فشار خون بالا و مشکلات قلبی بسیار احتیاط شود.
+                `;
+                break;
+            case 'Dextran':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> دکستران (Dextran)
+                    <div class="info-title">مورد مصرف:</div> جبران حجم خون و بهبود جریان خون در شوک‌ها
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی با سرعت آهسته تحت کنترل
+                    <div class="info-title">تداخلات دارویی:</div> تداخل با داروهای ضد انعقاد
+                    <div class="info-title">عوارض جانبی:</div> واکنش‌های آلرژیک، خطر خونریزی
+                    <div class="info-title">نکات مهم:</div> در بیماران با اختلالات انعقادی با احتیاط مصرف شود.
+                `;
+                break;
+            case 'Intralipid':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> اینترالیپید (Intralipid)
+                    <div class="info-title">مورد مصرف:</div> تأمین اسیدهای چرب و کالری برای بیماران
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی تدریجی با سرعت مشخص
+                    <div class="info-title">تداخلات دارویی:</div> تداخل با برخی داروهای لیپوفیلیک
+                    <div class="info-title">عوارض جانبی:</div> واکنش‌های آلرژیک و هایپرتری‌گلیسریدمی
+                    <div class="info-title">نکات مهم:</div> باید در بیماران با چربی خون بالا و مشکلات کبدی با احتیاط مصرف شود.
+                `;
+                break;
+            case 'AminoAcid':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> آمینواسید (Amino Acid Infusion)
+                    <div class="info-title">مورد مصرف:</div> تأمین پروتئین و اسیدهای آمینه برای بیماران با نیازهای ویژه
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی به صورت تدریجی
+                    <div class="info-title">تداخلات دارویی:</div> ممکن است با داروهای تنظیم کننده نیتروژن تداخل داشته باشد
+                    <div class="info-title">عوارض جانبی:</div> آلرژی و افزایش بار کلیوی
+                    <div class="info-title">نکات مهم:</div> در بیماران با مشکلات کلیوی و حساسیت بالا با احتیاط مصرف شود.
+                `;
+                break;
+            case 'Frusemide':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> فریزیوم (Frusemide with Saline)
+                    <div class="info-title">مورد مصرف:</div> افزایش دفع ادرار و کاهش بار مایع در بیمارانی با احتباس مایعات
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی با سرعت کنترل شده
+                    <div class="info-title">تداخلات دارویی:</div> دیورتیک‌ها و داروهای کاهنده فشار خون
+                    <div class="info-title">عوارض جانبی:</div> کاهش پتاسیم خون، کاهش سدیم و افت فشار خون
+                    <div class="info-title">نکات مهم:</div> در بیماران با فشار خون پایین و مشکلات الکترولیتی با دقت مصرف شود.
+                `;
+                break;
+            case 'PotassiumPhosphate':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> فسفات پتاسیم (Potassium Phosphate Infusion)
+                    <div class="info-title">مورد مصرف:</div> جبران پتاسیم و فسفات در بیماران با کمبود این الکترولیت‌ها
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی آهسته با نظارت سطح الکترولیت‌ها
+                    <div class="info-title">تداخلات دارویی:</div> ممکن است با داروهای حاوی پتاسیم و داروهای کاهنده فسفات تداخل داشته باشد
+                    <div class="info-title">عوارض جانبی:</div> هایپرکالمی، هایپرفسفاتمی و هایپوکلسیمی
+                    <div class="info-title">نکات مهم:</div> پایش دقیق سطح الکترولیت‌ها به ویژه در بیماران کلیوی ضروری است.
+                `;
+                break;
+            case 'PlasmaLyte':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> پلاسما لایت (PlasmaLyte)
+                    <div class="info-title">مورد مصرف:</div> جبران الکترولیت‌ها و مایعات در شرایط مختلف بالینی
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی با سرعت مناسب
+                    <div class="info-title">تداخلات دارویی:</div> تداخل با برخی داروهای تعادل الکترولیت‌ها
+                    <div class="info-title">عوارض جانبی:</div> تغییرات اسید و باز خون
+                    <div class="info-title">نکات مهم:</div> در بیماران مبتلا به نارسایی کلیوی با احتیاط مصرف شود.
+                `;
+                break;
+            case 'Dextrose20':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> دکستروز ۲۰٪ (Dextrose 20%)
+                    <div class="info-title">مورد مصرف:</div> تأمین انرژی بالا و درمان فوری هیپوگلیسمی
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی آهسته با پایش سطح قند خون
+                    <div class="info-title">تداخلات دارویی:</div> انسولین و داروهای قند خون
+                    <div class="info-title">عوارض جانبی:</div> هایپرگلیسمی و تغییرات الکترولیتی
+                    <div class="info-title">نکات مهم:</div> به ویژه در بیماران دیابتی تحت کنترل دقیق مصرف شود.
+                `;
+                break;
+            case 'Lipofundin':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> لیپوفوندین (Lipofundin)
+                    <div class="info-title">مورد مصرف:</div> تغذیه وریدی و تأمین چربی‌های ضروری
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی با سرعت آهسته برای جلوگیری از عوارض جانبی
+                    <div class="info-title">تداخلات دارویی:</div> داروهای لیپوفیلیک
+                    <div class="info-title">عوارض جانبی:</div> افزایش چربی خون و واکنش‌های آلرژیک
+                    <div class="info-title">نکات مهم:</div> در بیماران با چربی خون بالا و مشکلات کبدی احتیاط شود.
+                `;
+                break;
+            case 'SodiumBicarbonate':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> بی‌کربنات سدیم (Sodium Bicarbonate)
+                    <div class="info-title">مورد مصرف:</div> تصحیح اسیدوز متابولیک در برخی شرایط بحرانی
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی آهسته تحت نظارت پزشکی
+                    <div class="info-title">تداخلات دارویی:</div> برخی داروهای تنظیم‌کننده اسید و باز
+                    <div class="info-title">عوارض جانبی:</div> آلکالوز متابولیک و تغییرات سدیم
+                    <div class="info-title">نکات مهم:</div> در بیماران با اختلالات الکترولیت و فشار خون با دقت مصرف شود.
+                `;
+                break;
+            case 'RingerAcetate':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> رینگر استات (Ringer Acetate)
+                    <div class="info-title">مورد مصرف:</div> جبران مایعات و الکترولیت‌ها به خصوص در جراحی‌ها
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی با نظارت سطح الکترولیت‌ها
+                    <div class="info-title">تداخلات دارویی:</div> دیورتیک‌ها و سایر داروهای الکترولیتی
+                    <div class="info-title">عوارض جانبی:</div> تغییرات اسید و باز خون و واکنش‌های آلرژیک
+                    <div class="info-title">نکات مهم:</div> در بیماران کلیوی و قلبی با احتیاط مصرف شود.
+                `;
+                break;
+            case 'OneThirdTwoThird':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> سرم یک‌سوم دو‌سوم (1/3 - 2/3 Solution)
+                    <div class="info-title">مورد مصرف:</div> جبران همزمان قند و مایعات، مخصوصاً برای بیماران دیابتی
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی با سرعت کنترل شده بر اساس نیاز بیمار
+                    <div class="info-title">تداخلات دارویی:</div> ممکن است با داروهای قند خون تداخل داشته باشد
+                    <div class="info-title">عوارض جانبی:</div> هیپوگلیسمی یا هایپرگلیسمی بر اساس مصرف نادرست
+                    <div class="info-title">نکات مهم:</div> در بیماران دیابتی تحت نظارت مصرف شود.
+                `;
+                break;
+            case 'DextroseSaline':
+                infoContent = `
+                    <div class="info-title">نام سرم:</div> سرم قندی - نمکی (Dextrose with Saline)
+                    <div class="info-title">مورد مصرف:</div> تأمین همزمان قند و الکترولیت برای بیماران نیازمند
+                    <div class="info-title">نحوه مصرف:</div> تزریق وریدی تدریجی با کنترل قند و الکترولیت‌ها
+                    <div class="info-title">تداخلات دارویی:</div> تداخل با داروهای تنظیم قند و انسولین
+                    <div class="info-title">عوارض جانبی:</div> هایپرگلیسمی، اختلالات الکترولیتی
+                    <div class="info-title">نکات مهم:</div> پایش سطح قند و سدیم خون ضروری است.
+                `;
+                break;
+            default:
+                infoContent = '<p>لطفاً یک سرم انتخاب کنید.</p>';
+        }
+
+        infoDiv.innerHTML = infoContent;
+    }
+</script>
+
+</body>
+</html>

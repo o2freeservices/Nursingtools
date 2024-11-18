@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاسبه حجم تزریق دارو در هر ساعت</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: center;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+        .container {
+            max-width: 450px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        label {
+            font-weight: bold;
+            margin-top: 15px;
+            display: block;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4ca1af;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #35788e;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>محاسبه حجم تزریق دارو در هر ساعت</h2>
+
+    <label for="totalDose">دوز کلی دارو (به میلی‌گرم یا واحد):</label>
+    <input type="number" step="0.1" id="totalDose" placeholder="مثلاً 500" required>
+
+    <label for="doseUnit">واحد دوز:</label>
+    <select id="doseUnit">
+        <option value="mg">میلی‌گرم (mg)</option>
+        <option value="g">گرم (g)</option>
+        <option value="units">واحد (Units)</option>
+    </select>
+
+    <label for="volume">حجم کل محلول (میلی‌لیتر):</label>
+    <input type="number" step="0.1" id="volume" placeholder="مثلاً 100" required>
+
+    <label for="desiredDose">دوز تجویزی مورد نیاز در هر ساعت (به همان واحد):</label>
+    <input type="number" step="0.1" id="desiredDose" placeholder="مثلاً 50" required>
+
+    <button onclick="calculateVolumePerHour()">محاسبه حجم تزریق در هر ساعت</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    function calculateVolumePerHour() {
+        const totalDose = parseFloat(document.getElementById("totalDose").value);
+        const doseUnit = document.getElementById("doseUnit").value;
+        const volume = parseFloat(document.getElementById("volume").value);
+        const desiredDose = parseFloat(document.getElementById("desiredDose").value);
+
+        if (!totalDose || !volume || !desiredDose) {
+            document.getElementById("result").innerText = "لطفاً تمامی مقادیر را به درستی وارد کنید.";
+            return;
+        }
+
+        // اگر واحد دوز گرم باشد، به میلی‌گرم تبدیل می‌شود
+        let doseInMg;
+        if (doseUnit === "g") {
+            doseInMg = totalDose * 1000; // تبدیل گرم به میلی‌گرم
+        } else {
+            doseInMg = totalDose; // میلی‌گرم یا واحد
+        }
+
+        // محاسبه غلظت دارو (دوز در هر میلی‌لیتر)
+        const concentration = doseInMg / volume;
+
+        // محاسبه حجم تزریق در هر ساعت برای رسیدن به دوز مورد نیاز
+        const volumePerHour = desiredDose / concentration;
+
+        document.getElementById("result").innerHTML = `
+            حجم مورد نیاز تزریق در هر ساعت: ${volumePerHour.toFixed(2)} میلی‌لیتر
+        `;
+    }
+</script>
+
+</body>
+</html>

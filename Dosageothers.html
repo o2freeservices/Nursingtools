@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاسبه دوز داروها</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: center;
+            padding: 20px;
+            background-color: #f3f4f6;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label, select, input, button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            font-size: 1rem;
+        }
+        button {
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #388e3c;
+        }
+        .result {
+            background-color: #e7f3e7;
+            color: #333;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: right;
+        }
+        .note {
+            font-size: 0.9rem;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>محاسبه دوز دارو</h1>
+    <label for="age">گروه سنی</label>
+    <select id="age">
+        <option value="adult">بزرگسال</option>
+        <option value="child">کودک</option>
+    </select>
+
+    <label for="age-specific">سن بیمار (سال)</label>
+    <input type="number" id="age-specific" placeholder="سن بیمار را وارد کنید" min="0">
+
+    <label for="drug">انتخاب دارو</label>
+    <select id="drug">
+        <option value="lidocaine">لیدوکائین</option>
+        <option value="streptokinase">استرپتوکیناز</option>
+        <option value="reteplase">رتپلاز</option>
+        <option value="amiodarone">آمیودارون</option>
+        <option value="adenosine">آدنوزین</option>
+        <option value="epinephrine">اپی نفرین</option>
+        <option value="atropine">آتروپین</option>
+    </select>
+
+    <label for="weight">وزن بیمار (کیلوگرم)</label>
+    <input type="number" id="weight" placeholder="وزن بیمار را وارد کنید" min="1">
+
+    <button onclick="calculateDose()">محاسبه دوز</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function calculateDose() {
+        const age = document.getElementById("age").value;
+        const drug = document.getElementById("drug").value;
+        const weight = parseFloat(document.getElementById("weight").value);
+        const ageSpecific = parseFloat(document.getElementById("age-specific").value);
+        let doseInfo = "";
+
+        if (isNaN(weight) || weight <= 0 || (age === 'child' && isNaN(ageSpecific))) {
+            document.getElementById("result").innerText = "لطفاً وزن و سن معتبر وارد کنید.";
+            return;
+        }
+
+        switch (drug) {
+            case "lidocaine":
+                doseInfo = age === "adult" ? 
+                    `دوز اولیه برای بزرگسالان: 50-100 میلی‌گرم تزریق وریدی به‌صورت آهسته.
+                     <br>دوز نگهدارنده: 1-4 میلی‌گرم در دقیقه تزریق وریدی مداوم.
+                     <br>حداکثر دوز: 300 میلی‌گرم در یک ساعت.
+                     <br><span class="note">توجه: در بیمارانی با مشکلات کبدی، دوز باید کاهش یابد.</span>` 
+                    : 
+                    `دوز کودکان: ${weight * 1} میلی‌گرم بر کیلوگرم به صورت تزریق وریدی (حداکثر 100 میلی‌گرم).
+                     <br>در موارد ضروری، دوز ممکن است تکرار شود.`;
+                break;
+                
+            case "streptokinase":
+                doseInfo = age === "adult" ? 
+                    `بزرگسالان: 1.5 میلیون واحد تزریق وریدی در طی 60 دقیقه.
+                     <br><span class="note">هشدار: حساسیت‌های شدید ممکن است رخ دهد، نظارت دقیق الزامی است.</span>`
+                    : 
+                    `کودکان: به دلیل خطرات و حساسیت‌های احتمالی، با مشورت پزشک استفاده شود.
+                     <br><span class="note">دوز بر اساس شرایط بیمار متفاوت است.</span>`;
+                break;
+                
+            case "reteplase":
+                doseInfo = age === "adult" ? 
+                    `بزرگسالان: 10 واحد وریدی، سپس تکرار 10 واحد بعد از 30 دقیقه.
+                     <br><span class="note">توجه: برای افرادی با سابقه خونریزی فعال، منع مصرف دارد.</span>`
+                    : 
+                    `این دارو برای کودکان توصیه نمی‌شود.`;
+                break;
+
+            case "amiodarone":
+                doseInfo = age === "adult" ? 
+                    `بزرگسالان: دوز اولیه 300 میلی‌گرم وریدی، سپس 150 میلی‌گرم در صورت نیاز.
+                     <br>دوز نگهدارنده: 1 میلی‌گرم در دقیقه.
+                     <br><span class="note">هشدار: عوارض جانبی ممکن است شامل افت فشار خون باشد، با احتیاط استفاده شود.</span>`
+                    : 
+                    `کودکان: ${weight * 5} میلی‌گرم بر کیلوگرم به صورت تزریق وریدی (حداکثر 15 میلی‌گرم در کیلوگرم در روز).`;
+                break;
+
+            case "adenosine":
+                doseInfo = age === "adult" ? 
+                    `بزرگسالان: 6 میلی‌گرم تزریق وریدی سریع، در صورت نیاز، 12 میلی‌گرم تکرار.
+                     <br><span class="note">توجه: تجویز سریع و با دقت به فشار خون بیمار توجه شود.</span>`
+                    : 
+                    `کودکان: ${weight * 0.1} میلی‌گرم بر کیلوگرم (حداکثر 6 میلی‌گرم) به صورت تزریق سریع.
+                     <br>در صورت نیاز، دوز قابل تکرار است.`;
+                break;
+
+            case "epinephrine":
+                doseInfo = age === "adult" ? 
+                    `بزرگسالان: 1 میلی‌گرم تزریق وریدی هر 3-5 دقیقه در موارد اضطراری.
+                     <br><span class="note">هشدار: استفاده بیش از حد می‌تواند باعث افزایش فشار خون شود.</span>`
+                    : 
+                    `کودکان: ${weight * 0.01} میلی‌گرم بر کیلوگرم به صورت وریدی (10 میکروگرم بر کیلوگرم).
+                     <br>حداکثر دوز با توجه به شرایط بیمار تعیین می‌شود.`;
+                break;
+
+            case "atropine":
+                doseInfo = age === "adult" ? 
+                    `بزرگسالان: 0.5-1 میلی‌گرم وریدی هر 3-5 دقیقه، حداکثر دوز 3 میلی‌گرم.
+                     <br><span class="note">توجه: در دوزهای بالاتر خطر عوارض جانبی افزایش می‌یابد.</span>`
+                    : 
+                    `کودکان: ${weight * 0.02} میلی‌گرم بر کیلوگرم (20 میکروگرم بر کیلوگرم)، حداکثر 1 میلی‌گرم.
+                     <br>در صورت نیاز قابل تکرار است.`;
+                break;
+
+            default:
+                doseInfo = "داروی انتخابی نامعتبر است.";
+        }
+
+        document.getElementById("result").innerHTML = `<p>${doseInfo}</p>`;
+    }
+</script>
+
+</body>
+</html>

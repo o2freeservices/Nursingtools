@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاسبه BMI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: center;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4ca1af;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #35788e;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>محاسبه شاخص توده بدنی (BMI)</h2>
+    <p>وزن و قد بیمار را وارد کنید:</p>
+    <input type="number" id="weight" placeholder="وزن (کیلوگرم)" required>
+    <input type="number" id="height" placeholder="قد (سانتی‌متر)" required>
+    <button onclick="calculateBMI()">محاسبه</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    function calculateBMI() {
+        const weight = parseFloat(document.getElementById("weight").value);
+        const height = parseFloat(document.getElementById("height").value) / 100; // تبدیل سانتی‌متر به متر
+
+        if (!weight || !height) {
+            document.getElementById("result").innerText = "لطفاً مقادیر معتبر برای وزن و قد وارد کنید.";
+            return;
+        }
+
+        const bmi = (weight / (height * height)).toFixed(2);
+
+        let message;
+        if (bmi < 18.5) {
+            message = "کمبود وزن";
+        } else if (bmi >= 18.5 && bmi <= 24.9) {
+            message = "وزن نرمال";
+        } else if (bmi >= 25 && bmi <= 29.9) {
+            message = "اضافه وزن";
+        } else if (bmi >= 30 && bmi <= 34.9) {
+            message = "چاقی درجه 1 (خفیف)";
+        } else if (bmi >= 35 && bmi <= 39.9) {
+            message = "چاقی درجه 2 (متوسط)";
+        } else {
+            message = "چاقی درجه 3 (شدید)";
+        }
+
+        document.getElementById("result").innerText = `شاخص BMI: ${bmi} - وضعیت: ${message}`;
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آزمایش‌های رایج بیمارستانی</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: center;
+            padding: 20px;
+            background-color: #f1f5f8;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+        label, input {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #357abd;
+        }
+        .result {
+            background-color: #e3f2fd;
+            color: #333;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: right;
+        }
+        h2 {
+            color: #4a90e2;
+            margin-bottom: 5px;
+        }
+        p {
+            font-size: 0.95rem;
+            margin: 5px 0;
+            line-height: 1.6;
+        }
+        .not-found {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>آزمایش‌های رایج بیمارستانی</h1>
+    
+    <label for="search">نام آزمایش را وارد کنید:</label>
+    <input type="text" id="search" placeholder="مثال: CBC یا شمارش کامل خون">
+    <button onclick="searchTest()">جستجو</button>
+
+    <div class="result" id="result">برای مشاهده اطلاعات، نام آزمایش را جستجو کنید.</div>
+</div>
+
+<script>
+    const tests = [
+        {name: "CBC", faName: "شمارش کامل خون", description: "شمارش کامل سلول‌های خون شامل WBC، RBC، Hb و پلاکت‌ها", normalRange: "WBC: 4,500 - 11,000 /µL، RBC: 4.5 - 5.9 میلیون/µL، Hb: 13.5 - 17.5 g/dL"},
+        {name: "ESR", faName: "سرعت ته‌نشینی گلبول‌های قرمز", description: "سرعت ته‌نشینی گلبول‌های قرمز برای ارزیابی التهاب و عفونت", normalRange: "مردان: 0 - 15 mm/hr، زنان: 0 - 20 mm/hr"},
+        {name: "Platelet Count", faName: "شمارش پلاکت", description: "شمارش پلاکت‌ها برای ارزیابی خطر خونریزی و لخته شدن خون", normalRange: "150,000 - 450,000 /µL"},
+        {name: "Reticulocyte Count", faName: "شمارش رتیکولوسیت‌ها", description: "شمارش رتیکولوسیت‌ها، نشان‌دهنده تولید گلبول‌های قرمز", normalRange: "0.5 - 2.5%"},
+        {name: "Hemoglobin", faName: "هموگلوبین", description: "سطح هموگلوبین در خون، شاخص کم‌خونی", normalRange: "مردان: 13.5 - 17.5 g/dL، زنان: 12 - 15.5 g/dL"},
+        {name: "Hematocrit", faName: "هماتوکریت", description: "درصد گلبول‌های قرمز در حجم خون", normalRange: "مردان: 41 - 50%، زنان: 36 - 44%"},
+        {name: "RBC Count", faName: "شمارش گلبول‌های قرمز", description: "شمارش گلبول‌های قرمز در خون", normalRange: "مردان: 4.5 - 5.9 میلیون/µL، زنان: 4.2 - 5.4 میلیون/µL"},
+        {name: "MCV", faName: "حجم متوسط گلبول‌های قرمز", description: "حجم متوسط گلبول‌های قرمز، شاخص کم‌خونی", normalRange: "80 - 100 fL"},
+        {name: "MCH", faName: "میزان هموگلوبین گلبولی", description: "مقدار متوسط هموگلوبین در هر گلبول قرمز", normalRange: "27 - 32 pg"},
+        {name: "MCHC", faName: "غلظت متوسط هموگلوبین گلبولی", description: "غلظت هموگلوبین در گلبول‌های قرمز", normalRange: "32 - 36 g/dL"},
+        {name: "FBS", faName: "قند خون ناشتا", description: "قند خون ناشتا برای ارزیابی دیابت", normalRange: "70 - 100 mg/dL"},
+        {name: "BUN", faName: "نیتروژن اوره خون", description: "نیتروژن اوره خون برای ارزیابی عملکرد کلیه", normalRange: "7 - 20 mg/dL"},
+        {name: "Creatinine", faName: "کراتینین", description: "سطح کراتینین برای ارزیابی عملکرد کلیه", normalRange: "مردان: 0.6 - 1.2 mg/dL، زنان: 0.5 - 1.1 mg/dL"},
+        {name: "Electrolytes", faName: "الکترولیت‌ها", description: "شامل سدیم، پتاسیم و کلرید", normalRange: "سدیم: 135 - 145 mEq/L، پتاسیم: 3.5 - 5.1 mEq/L"},
+        {name: "Calcium", faName: "کلسیم", description: "سطح کلسیم برای سلامت استخوان‌ها", normalRange: "8.5 - 10.2 mg/dL"},
+        {name: "Total Cholesterol", faName: "کلسترول کل", description: "سطح کلسترول برای ارزیابی خطر بیماری‌های قلبی", normalRange: "کمتر از 200 mg/dL"},
+        {name: "HDL", faName: "کلسترول HDL", description: "کلسترول خوب، نقش محافظتی در برابر بیماری‌های قلبی", normalRange: "بیشتر از 40 mg/dL"},
+        {name: "LDL", faName: "کلسترول LDL", description: "کلسترول بد، عامل خطر بیماری‌های قلبی", normalRange: "کمتر از 100 mg/dL"},
+        {name: "Triglycerides", faName: "تری‌گلیسرید", description: "سطح تری‌گلیسرید، شاخص دیگر سلامت قلبی", normalRange: "کمتر از 150 mg/dL"},
+        {name: "ALT", faName: "آلانین آمینوترانسفراز", description: "آلانین آمینوترانسفراز برای ارزیابی سلامت کبد", normalRange: "10 - 40 U/L"},
+        {name: "AST", faName: "آسپارتات آمینوترانسفراز", description: "آسپارتات آمینوترانسفراز برای بررسی آسیب کبدی", normalRange: "10 - 40 U/L"},
+        {name: "Total Bilirubin", faName: "بیلی‌روبین کل", description: "بیلی‌روبین کل برای ارزیابی سلامت کبد", normalRange: "0.1 - 1.2 mg/dL"},
+        {name: "Direct Bilirubin", faName: "بیلی‌روبین مستقیم", description: "بیلی‌روبین مستقیم برای ارزیابی کبد و کیسه صفرا", normalRange: "کمتر از 0.3 mg/dL"},
+        {name: "GGT", faName: "گاما گلوتامیل ترانسفراز", description: "آنزیم کبدی گاما گلوتامیل ترانسفراز برای تشخیص بیماری‌های کبدی", normalRange: "مردان: 10 - 71 U/L، زنان: 6 - 42 U/L"},
+        {name: "Albumin", faName: "آلبومین", description: "پروتئین اصلی پلاسما تولید شده توسط کبد", normalRange: "3.5 - 5.0 g/dL"},
+        {name: "LDH", faName: "لاکتات دهیدروژناز", description: "آنزیم لاکتات دهیدروژناز برای بررسی آسیب بافتی", normalRange: "140 - 280 U/L"},
+        {name: "Uric Acid", faName: "اسید اوریک", description: "برای بررسی نقرس و عملکرد کلیه‌ها", normalRange: "مردان: 3.4 - 7.0 mg/dL، زنان: 2.4 - 6.0 mg/dL"},
+        {name: "Amylase", faName: "آمیلاز", description: "آمیلاز برای ارزیابی پانکراس و مشکلات گوارشی", normalRange: "23 - 85 U/L"},
+        {name: "Lipase", faName: "لیپاز", description: "لیپاز، آنزیم پانکراس برای تشخیص بیماری‌های گوارشی", normalRange: "0 - 160 U/L"},
+        {name: "VLDL", faName: "لیپوپروتئین با چگالی خیلی پایین", description: "چربی خون با چگالی پایین مرتبط با خطر بیماری‌های قلبی", normalRange: "5 - 40 mg/dL"},
+        {name: "TSH", faName: "هورمون تحریک‌کننده تیروئید", description: "هورمون برای بررسی عملکرد تیروئید", normalRange: "0.4 - 4.0 mIU/L"},
+        {name: "Free T4", faName: "تیروکسین آزاد", description: "هورمون تیروکسین آزاد برای ارزیابی عملکرد تیروئید", normalRange: "0.8 - 1.8 ng/dL"},
+        {name: "Free T3", faName: "T3 آزاد", description: "هورمون تری‌یدوتیرونین آزاد برای ارزیابی تیروئید", normalRange: "2.3 - 4.2 pg/mL"},
+        {name: "Thyroglobulin", faName: "تیروگلوبولین", description: "مارکر برای ارزیابی بیماری‌های تیروئید", normalRange: "کمتر از 55 ng/mL"},
+        {name: "CRP", faName: "پروتئین واکنشی C", description: "پروتئین واکنشی C برای تشخیص التهاب", normalRange: "کمتر از 10 mg/L"},
+        {name: "ANA", faName: "آنتی‌بادی ضد هسته‌ای", description: "آزمایش برای تشخیص بیماری‌های خودایمنی", normalRange: "منفی"},
+        {name: "RF", faName: "فاکتور روماتوئید", description: "عامل روماتوئیدی برای تشخیص آرتریت روماتوئید", normalRange: "کمتر از 14 IU/mL"},
+        {name: "ASO", faName: "آنتی‌استرپتولیزین O", description: "آزمایش تشخیصی برای عفونت‌های استرپتوکوکی", normalRange: "کمتر از 200 IU/mL"},
+        {name: "Complement C3", faName: "کمپلمان C3", description: "فاکتور مکمل ایمنی C3", normalRange: "90 - 180 mg/dL"},
+        {name: "Complement C4", faName: "کمپلمان C4", description: "فاکتور مکمل ایمنی C4", normalRange: "10 - 40 mg/dL"},
+        {name: "PSA", faName: "آنتی‌ژن اختصاصی پروستات", description: "آنتی‌ژن اختصاصی پروستات برای تشخیص سرطان پروستات", normalRange: "کمتر از 4 ng/mL"},
+        {name: "CEA", faName: "آنتی‌ژن کارسینوامبریونیک", description: "مارکر تشخیصی برای برخی از سرطان‌ها", normalRange: "کمتر از 5 ng/mL"},
+        {name: "CA-125", faName: "مارکر سرطان تخمدان", description: "مارکر تشخیصی برای سرطان تخمدان", normalRange: "کمتر از 35 U/mL"},
+        {name: "CA-19-9", faName: "مارکر سرطان‌های گوارشی", description: "مارکر تشخیصی برای سرطان‌های گوارشی", normalRange: "کمتر از 37 U/mL"},
+        {name: "AFP", faName: "آلفا فیتوپروتئین", description: "مارکر سرطان کبد و سرطان‌های جنینی", normalRange: "کمتر از 10 ng/mL"},
+        {name: "Blood in Urine", faName: "خون در ادرار", description: "بررسی وجود خون در ادرار", normalRange: "منفی"},
+        {name: "Leukocyte Esterase", faName: "لکوسیت استراز", description: "نشانگر عفونت ادراری", normalRange: "منفی"},
+        {name: "Folate", faName: "فولات", description: "سطح فولات برای بررسی کمبود اسید فولیک", normalRange: "3 - 16 ng/mL"},
+        {name: "BNP", faName: "پپتید ناتریورتیک مغزی", description: "مارکر برای تشخیص نارسایی قلبی", normalRange: "کمتر از 100 pg/mL"},
+        {name: "Myoglobin", faName: "میوگلوبین", description: "پروتئین عضلانی برای تشخیص آسیب عضله", normalRange: "کمتر از 90 ng/mL"},
+        {name: "D-dimer", faName: "دی‌دایمر", description: "آزمایش تشخیصی برای لخته خون و مشکلات انعقادی", normalRange: "کمتر از 0.5 µg/mL"},
+        {name: "pH (Blood Gas)", faName: "pH خون", description: "میزان اسیدیته خون", normalRange: "7.35 - 7.45"},
+        {name: "pCO₂", faName: "فشار دی‌اکسید کربن", description: "فشار جزئی دی‌اکسید کربن برای بررسی وضعیت تنفس", normalRange: "35 - 45 mmHg"},
+        {name: "pO₂", faName: "فشار اکسیژن", description: "فشار جزئی اکسیژن برای ارزیابی میزان اکسیژناسیون", normalRange: "80 - 100 mmHg"},
+        {name: "HCO₃", faName: "بیکربنات خون", description: "بیکربنات خون برای تنظیم اسید-باز بدن", normalRange: "22 - 26 mEq/L"},
+        {name: "O₂ Saturation", faName: "اشباع اکسیژن", description: "درصد اشباع اکسیژن در خون", normalRange: "95 - 100%"},
+        {name: "Lactate", faName: "لاکتات", description: "سطح لاکتات برای ارزیابی کمبود اکسیژن و شوک", normalRange: "0.5 - 2.2 mmol/L"},
+        {name: "Vitamin D", faName: "ویتامین D", description: "سطح ویتامین D برای سلامت استخوان‌ها و سیستم ایمنی", normalRange: "20 - 50 ng/mL"},
+        {name: "Vitamin B12", faName: "ویتامین B12", description: "سطح ویتامین B12 برای سلامت سیستم عصبی", normalRange: "200 - 900 pg/mL"},
+        {name: "Iron", faName: "آهن", description: "سطح آهن خون برای بررسی کم‌خونی", normalRange: "مردان: 65 - 175 µg/dL، زنان: 50 - 170 µg/dL"},
+        {name: "Phosphorus", faName: "فسفر", description: "سطح فسفر برای تعادل مواد معدنی در بدن", normalRange: "2.5 - 4.5 mg/dL"},
+        {name: "Magnesium", faName: "منیزیم", description: "سطح منیزیم برای عملکرد مناسب عضلات و اعصاب", normalRange: "1.7 - 2.2 mg/dL"},
+        {name: "Amylase", faName: "آمیلاز", description: "آمیلاز برای ارزیابی پانکراس و مشکلات گوارشی", normalRange: "23 - 85 U/L"},
+        {name: "Lipase", faName: "لیپاز", description: "لیپاز، آنزیم پانکراس برای تشخیص بیماری‌های گوارشی", normalRange: "0 - 160 U/L"},
+        {name: "Reticulocyte Count", faName: "شمارش رتیکولوسیت‌ها", description: "شمارش رتیکولوسیت‌ها، نشان‌دهنده تولید گلبول‌های قرمز", normalRange: "0.5 - 2.5%"},
+        {name: "CK-MB", faName: "کراتین کیناز-MB", description: "مارکر قلبی برای آسیب به عضله قلب", normalRange: "کمتر از 5 ng/mL"},
+        {name: "Troponin", faName: "تروپونین", description: "مارکر اصلی آسیب به عضله قلب", normalRange: "کمتر از 0.04 ng/mL"},
+        {name: "BNP", faName: "پپتید ناتریورتیک مغزی", description: "برای ارزیابی نارسایی قلبی", normalRange: "کمتر از 100 pg/mL"},
+        {name: "Myoglobin", faName: "میوگلوبین", description: "پروتئین عضلانی برای تشخیص آسیب عضله", normalRange: "کمتر از 90 ng/mL"},
+        {name: "D-dimer", faName: "دی‌دایمر", description: "برای تشخیص لخته خون و مشکلات انعقادی", normalRange: "کمتر از 0.5 µg/mL"},
+        {name: "PT (Prothrombin Time)", faName: "زمان پروترومبین", description: "برای بررسی توانایی انعقاد خون", normalRange: "10 - 14 ثانیه"},
+        {name: "INR", faName: "نسبت استاندارد شده بین‌المللی", description: "ارزیابی استاندارد توانایی انعقاد خون", normalRange: "0.8 - 1.2"},
+        {name: "aPTT", faName: "زمان نسبی ترومبوپلاستین فعال‌شده", description: "برای ارزیابی عملکرد انعقاد خون", normalRange: "25 - 35 ثانیه"},
+        {name: "Fibrinogen", faName: "فیبرینوژن", description: "سطح فیبرینوژن برای ارزیابی ریسک خونریزی", normalRange: "200 - 400 mg/dL"},
+        {name: "Glucose", faName: "گلوکز", description: "سطح گلوکز خون برای ارزیابی دیابت", normalRange: "70 - 99 mg/dL"},
+        {name: "Sodium", faName: "سدیم", description: "سطح سدیم برای تنظیم مایعات بدن", normalRange: "135 - 145 mEq/L"},
+        {name: "Potassium", faName: "پتاسیم", description: "سطح پتاسیم برای عملکرد عصب‌ها و ماهیچه‌ها", normalRange: "3.5 - 5.1 mEq/L"},
+        {name: "Chloride", faName: "کلرید", description: "سطح کلرید برای تعادل اسید-باز بدن", normalRange: "98 - 107 mEq/L"},
+        {name: "CO2", faName: "دی‌اکسید کربن", description: "سطح CO2 برای ارزیابی تنفس و تنظیم اسید-باز", normalRange: "22 - 29 mEq/L"},
+        {name: "TIBC", faName: "ظرفیت کل اتصال آهن", description: "ارزیابی میزان اتصال آهن به پروتئین‌ها", normalRange: "250 - 450 µg/dL"},
+        {name: "Ferritin", faName: "فریتین", description: "سطح فریتین برای ذخیره آهن در بدن", normalRange: "مردان: 20 - 250 ng/mL، زنان: 10 - 120 ng/mL"},
+        {name: "Creatine Kinase (CK)", faName: "کراتین کیناز", description: "سطح CK برای ارزیابی آسیب عضلانی", normalRange: "55 - 170 U/L"},
+        {name: "Lactate", faName: "لاکتات", description: "سطح لاکتات برای ارزیابی کمبود اکسیژن و شوک", normalRange: "0.5 - 2.2 mmol/L"},
+        {name: "Aldosterone", faName: "آلدوسترون", description: "هورمون برای تنظیم تعادل نمک و آب", normalRange: "3 - 30 ng/dL"},
+        {name: "Parathyroid Hormone (PTH)", faName: "هورمون پاراتیروئید", description: "برای تنظیم کلسیم و فسفر بدن", normalRange: "10 - 65 pg/mL"},
+        {name: "Insulin", faName: "انسولین", description: "سطح انسولین برای ارزیابی دیابت", normalRange: "2 - 25 µIU/mL"},
+        {name: "C-Peptide", faName: "سی پپتید", description: "نشانگر تولید انسولین در بدن", normalRange: "0.5 - 2.0 ng/mL"},
+        {name: "Prolactin", faName: "پرولاکتین", description: "هورمون پرولاکتین برای ارزیابی تولید شیر در بدن", normalRange: "مردان: 2 - 18 ng/mL، زنان: 2 - 29 ng/mL"},
+        {name: "Testosterone", faName: "تستوسترون", description: "هورمون تستوسترون برای ارزیابی وضعیت هورمونی", normalRange: "مردان: 300 - 1,000 ng/dL، زنان: 15 - 70 ng/dL"},
+        {name: "Estradiol", faName: "استرادیول", description: "هورمون استروژن برای ارزیابی سلامت تولیدمثل", normalRange: "مردان: 10 - 50 pg/mL، زنان: 15 - 350 pg/mL"},
+        {name: "FSH", faName: "هورمون محرک فولیکولی", description: "هورمون برای ارزیابی عملکرد تخمدان و بیضه", normalRange: "مردان: 1 - 12 mIU/mL، زنان: 1 - 18 mIU/mL"},
+        {name: "LH", faName: "هورمون لوتئینایزینگ", description: "هورمون برای ارزیابی عملکرد تخمدان و بیضه", normalRange: "مردان: 1.5 - 9.3 mIU/mL، زنان: 1 - 20 mIU/mL"},
+        {name: "Progesterone", faName: "پروژسترون", description: "هورمون پروژسترون برای ارزیابی چرخه قاعدگی", normalRange: "کمتر از 1 ng/mL در مرحله فولیکولی، 2 - 25 ng/mL در مرحله لوتئال"},
+        {name: "Cortisol", faName: "کورتیزول", description: "هورمون استرس و پاسخ بدن به فشارها", normalRange: "صبح: 6 - 23 µg/dL، عصر: 3 - 13 µg/dL"},
+        {name: "IGF-1", faName: "فاکتور رشد شبه انسولین", description: "ارزیابی رشد و عملکرد هورمون رشد", normalRange: "100 - 300 ng/mL"},
+        {name: "Growth Hormone (GH)", faName: "هورمون رشد", description: "سطح هورمون رشد برای ارزیابی ناهنجاری‌های رشد", normalRange: "کمتر از 5 ng/mL"},
+        {name: "Vitamin A", faName: "ویتامین A", description: "سطح ویتامین A برای سلامت چشم و ایمنی بدن", normalRange: "20 - 50 µg/dL"},
+        {name: "Vitamin E", faName: "ویتامین E", description: "سطح ویتامین E برای حفاظت از سلول‌ها", normalRange: "5 - 20 µg/mL"},
+        {name: "Homocysteine", faName: "هوموسیستئین", description: "برای ارزیابی ریسک بیماری‌های قلبی", normalRange: "کمتر از 15 µmol/L"},
+        {name: "C-Reactive Protein High Sensitivity (hs-CRP)", faName: "پروتئین واکنشی C با حساسیت بالا", description: "مارکری برای التهاب‌های خفیف", normalRange: "کمتر از 3 mg/L"},
+        {name: "NT-proBNP", faName: "پروپپتید ناتریورتیک نوع B", description: "برای ارزیابی نارسایی قلبی", normalRange: "کمتر از 125 pg/mL برای سنین کمتر از 75 سال"},
+        {name: "Ferritin", faName: "فریتین", description: "سطح فریتین برای ارزیابی ذخایر آهن", normalRange: "مردان: 12 - 300 ng/mL، زنان: 12 - 150 ng/mL"},
+        {name: "MMA", faName: "متیل مالونیک اسید", description: "برای بررسی کمبود ویتامین B12", normalRange: "کمتر از 0.4 µmol/L"},
+        {name: "Urinary Microalbumin", faName: "میکروآلبومین ادراری", description: "بررسی اولیه بیماری کلیوی", normalRange: "کمتر از 30 mg/g کراتینین"},
+        {name: "Total Protein", faName: "پروتئین کل", description: "میزان پروتئین خون برای ارزیابی عملکرد کبد", normalRange: "6 - 8 g/dL"},
+        {name: "Albumin/Globulin Ratio", faName: "نسبت آلبومین به گلوبولین", description: "نسبت پروتئین‌های آلبومین به گلوبولین برای ارزیابی عملکرد کبد و کلیه", normalRange: "1.0 - 2.1"},
+        {name: "Alkaline Phosphatase (ALP)", faName: "آلکالین فسفاتاز", description: "سطح آلکالین فسفاتاز برای ارزیابی عملکرد کبد و استخوان", normalRange: "44 - 147 U/L"},
+        {name: "AST/ALT Ratio", faName: "نسبت AST به ALT", description: "نسبت این دو آنزیم برای ارزیابی وضعیت کبد", normalRange: "کمتر از 1"},
+        {name: "Blood Urea Nitrogen/Creatinine Ratio", faName: "نسبت نیتروژن اوره به کراتینین", description: "برای ارزیابی عملکرد کلیه", normalRange: "10 - 20"},
+        {name: "Serum Osmolality", faName: "اوسمولالیته سرم", description: "برای ارزیابی تعادل آب و الکترولیت‌ها در بدن", normalRange: "275 - 295 mOsm/kg"},
+        {name: "Urine Osmolality", faName: "اوسمولالیته ادرار", description: "برای ارزیابی تغلیظ و رقیق شدن ادرار", normalRange: "50 - 1,200 mOsm/kg"},
+        {name: "Anion Gap", faName: "گپ آنیونی", description: "شاخص تعادل اسید و باز در بدن", normalRange: "8 - 16 mEq/L"},
+        {name: "Lipoprotein (a)", faName: "لیپوپروتئین (a)", description: "برای ارزیابی ریسک بیماری‌های قلبی", normalRange: "کمتر از 30 mg/dL"},
+        {name: "Zinc", faName: "روی", description: "سطح روی برای سلامت ایمنی و متابولیسم", normalRange: "60 - 120 µg/dL"},
+        {name: "Copper", faName: "مس", description: "سطح مس برای سلامت بافت‌ها و اعصاب", normalRange: "70 - 140 µg/dL"},
+        {name: "Ammonia", faName: "آمونیاک", description: "سطح آمونیاک برای ارزیابی عملکرد کبد", normalRange: "15 - 45 µg/dL"},
+        {name: "Bilirubin (Direct and Indirect)", faName: "بیلی‌روبین (مستقیم و غیرمستقیم)", description: "برای ارزیابی وضعیت کبد", normalRange: "مستقیم: کمتر از 0.3 mg/dL، غیرمستقیم: کمتر از 1.0 mg/dL"},
+        {name: "DHEA-Sulfate", faName: "دی‌هیدرواپی‌اندروسترون سولفات", description: "برای ارزیابی وضعیت هورمونی", normalRange: "مردان: 280 - 640 µg/dL، زنان: 65 - 380 µg/dL"},
+        {name: "Free Testosterone", faName: "تستوسترون آزاد", description: "سطح تستوسترون آزاد برای ارزیابی وضعیت هورمونی", normalRange: "مردان: 5 - 21 ng/dL، زنان: 0.3 - 1.9 ng/dL"},
+        {name: "Procalcitonin", faName: "پروکلسیتونین", description: "مارکر برای تشخیص عفونت‌های باکتریایی", normalRange: "کمتر از 0.1 ng/mL"},
+        {name: "25-Hydroxy Vitamin D", faName: "ویتامین D (25 هیدروکسی)", description: "سطح ویتامین D برای ارزیابی سلامت استخوان‌ها", normalRange: "30 - 100 ng/mL"},
+        {name: "Blood Glucose (Random)", faName: "قند خون تصادفی", description: "سطح گلوکز خون به صورت تصادفی برای ارزیابی دیابت", normalRange: "کمتر از 200 mg/dL"},
+        {name: "RBC Folate", faName: "فولات گلبول قرمز", description: "سطح فولات در گلبول‌های قرمز برای ارزیابی کمبود فولات", normalRange: "280 - 791 ng/mL"},
+        {name: "Thyroid Peroxidase Antibodies (TPOAb)", faName: "آنتی‌بادی‌های پراکسیداز تیروئید", description: "برای تشخیص بیماری‌های خودایمنی تیروئید", normalRange: "کمتر از 35 IU/mL"},
+        {name: "Thyroglobulin Antibodies (TgAb)", faName: "آنتی‌بادی‌های تیروگلوبولین", description: "برای تشخیص بیماری‌های خودایمنی تیروئید", normalRange: "کمتر از 20 IU/mL"},
+        {name: "Erythropoietin", faName: "اریتروپویتین", description: "هورمون تحریک‌کننده تولید گلبول‌های قرمز", normalRange: "4 - 24 mIU/mL"},
+        {name: "Uric Acid (Urine)", faName: "اسید اوریک ادرار", description: "سطح اسید اوریک در ادرار برای ارزیابی نقرس", normalRange: "250 - 750 mg/24hr"},
+        {name: "Urine Culture", faName: "کشت ادرار", description: "برای تشخیص عفونت‌های باکتریایی در ادرار", normalRange: "نتیجه باید منفی باشد"},
+        {name: "Blood Culture", faName: "کشت خون", description: "برای تشخیص عفونت‌های باکتریایی در خون", normalRange: "نتیجه باید منفی باشد"},
+    ];
+
+    function searchTest() {
+        const input = document.getElementById("search").value.toLowerCase().trim();
+        const resultDiv = document.getElementById("result");
+
+        const filteredTests = tests.filter(test => 
+            test.name.toLowerCase().includes(input) || test.faName.toLowerCase().includes(input)
+        );
+
+        if (filteredTests.length > 0) {
+            resultDiv.innerHTML = filteredTests.map(test => `
+                <div class="test-result">
+                    <h2>${test.name} (${test.faName})</h2>
+                    <p><strong>توضیحات:</strong> ${test.description}</p>
+                    <p><strong>محدوده نرمال:</strong> ${test.normalRange}</p>
+                </div>
+            `).join('');
+        } else {
+            resultDiv.innerHTML = `<p class="not-found">آزمایش مورد نظر یافت نشد. لطفاً نام صحیح آزمایش را وارد کنید.</p>`;
+        }
+    }
+</script>
+
+</body>
+</html>
+
+

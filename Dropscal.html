@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاسبه تعداد قطرات سرم</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: center;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        select, input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4ca1af;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #35788e;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .info {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>محاسبه تعداد قطرات سرم</h2>
+    <label for="setType">نوع ست:</label>
+    <select id="setType">
+        <option value="micro">میکروست (60 قطره در هر میلی‌لیتر)</option>
+        <option value="macro">ست سرم (20 قطره در هر میلی‌لیتر)</option>
+    </select>
+    <label for="volume">حجم سرم (میلی‌لیتر):</label>
+    <input type="number" id="volume" placeholder="مثلاً 500" required>
+    
+    <label for="time">مدت زمان تزریق:</label>
+    <input type="number" id="time" placeholder="مثلاً 2" required>
+    <select id="timeUnit">
+        <option value="minutes">دقیقه</option>
+        <option value="hours">ساعت</option>
+    </select>
+    
+    <button onclick="calculateDrops()">محاسبه</button>
+    <div id="result"></div>
+    <div id="info" class="info"></div>
+</div>
+
+<script>
+    function calculateDrops() {
+        const setType = document.getElementById("setType").value;
+        const volume = parseFloat(document.getElementById("volume").value);
+        let time = parseFloat(document.getElementById("time").value);
+        const timeUnit = document.getElementById("timeUnit").value;
+
+        if (!volume || !time) {
+            document.getElementById("result").innerText = "لطفاً حجم و زمان را به‌طور معتبر وارد کنید.";
+            document.getElementById("info").innerText = "";
+            return;
+        }
+
+        // تبدیل زمان به دقیقه در صورت انتخاب ساعت
+        if (timeUnit === "hours") {
+            time *= 60;  // تبدیل ساعت به دقیقه
+        }
+
+        let dropsPerMl;
+        if (setType === "micro") {
+            dropsPerMl = 60;
+        } else {
+            dropsPerMl = 20;
+        }
+
+        const dropsPerMinute = ((volume * dropsPerMl) / time).toFixed(2);
+
+        let speedDescription;
+        if (dropsPerMinute < 20) {
+            speedDescription = "سرعت تزریق کم است. مناسب برای تزریقات طولانی‌مدت و مایعات رقیق.";
+        } else if (dropsPerMinute >= 20 && dropsPerMinute <= 60) {
+            speedDescription = "سرعت تزریق متوسط است. برای اکثر تزریقات مناسب است.";
+        } else {
+            speedDescription = "سرعت تزریق زیاد است. مناسب برای مواقعی که نیاز به تزریق سریع دارید، اما باید مراقب فشار بیش از حد باشید.";
+        }
+
+        document.getElementById("result").innerText = `تعداد قطرات در دقیقه: ${dropsPerMinute} قطره`;
+        document.getElementById("info").innerText = speedDescription;
+    }
+</script>
+
+</body>
+</html>

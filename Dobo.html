@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاسبه دوز دوپامین و دوبوتامین در سرم میکروست</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: center;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        select, input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4ca1af;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #35788e;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>محاسبه دوز دوپامین و دوبوتامین در میکروست</h2>
+    <label for="drugType">نوع دارو:</label>
+    <select id="drugType">
+        <option value="dopamine">دوپامین</option>
+        <option value="dobutamine">دوبوتامین</option>
+    </select>
+    <label for="dose">دوز مورد نیاز (میکروگرم بر کیلوگرم در دقیقه):</label>
+    <input type="number" id="dose" placeholder="مثلاً 5" required>
+    <label for="weight">وزن بیمار (کیلوگرم):</label>
+    <input type="number" id="weight" placeholder="مثلاً 70" required>
+    <label for="concentration">غلظت دارو در ۱۰۰ سی‌سی (میلی‌گرم):</label>
+    <input type="number" id="concentration" placeholder="مثلاً 200" required>
+    <button onclick="calculateDrops()">محاسبه</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    function calculateDrops() {
+        const drugType = document.getElementById("drugType").value;
+        const dose = parseFloat(document.getElementById("dose").value);
+        const weight = parseFloat(document.getElementById("weight").value);
+        const concentration = parseFloat(document.getElementById("concentration").value);
+
+        if (!dose || !weight || !concentration) {
+            document.getElementById("result").innerText = "لطفاً دوز، وزن و غلظت را به‌طور معتبر وارد کنید.";
+            return;
+        }
+
+        // تبدیل غلظت از میلی‌گرم در ۱۰۰ میلی‌لیتر به میکروگرم در میلی‌لیتر
+        const concentrationInMicrogramsPerMl = (concentration * 1000) / 100;
+
+        // محاسبه میلی‌لیتر در دقیقه بر اساس دوز، وزن و غلظت
+        const mlPerMinute = (dose * weight) / concentrationInMicrogramsPerMl;
+
+        // محاسبه تعداد قطرات در دقیقه (میکروست: 60 قطره در میلی‌لیتر)
+        const dropsPerMinute = (mlPerMinute * 60).toFixed(2);
+
+        document.getElementById("result").innerText = `تعداد قطرات در دقیقه برای ${drugType === 'dopamine' ? 'دوپامین' : 'دوبوتامین'}: ${dropsPerMinute} قطره`;
+    }
+</script>
+
+</body>
+</html>

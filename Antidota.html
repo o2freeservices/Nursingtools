@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فهرست داروها و آنتی‌دوت‌ها</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            background-color: #e0f7fa;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+        }
+        h1 {
+            color: #00796b;
+            margin-bottom: 20px;
+        }
+        .search-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .search-section label {
+            font-size: 1.2rem;
+            margin-right: 10px;
+        }
+        .search-section input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 2px solid #00796b;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .result {
+            background-color: #f1f8e9;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            color: #333;
+            text-align: right;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+        th {
+            background-color: #00796b;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .not-found {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>فهرست داروها و آنتی‌دوت‌ها</h1>
+
+    <!-- Search Section -->
+    <div class="search-section">
+        <label for="search">نام دارو یا آنتی‌دوت را وارد کنید:</label>
+        <input type="text" id="search" oninput="searchDrug()" placeholder="مثال: استامینوفن یا N-استیل سیستئین">
+    </div>
+
+    <!-- Result Section -->
+    <div class="result" id="result">برای مشاهده اطلاعات، نام دارو یا آنتی‌دوت را جستجو کنید.</div>
+
+    <!-- Table Section -->
+    <table id="drugTable">
+        <thead>
+            <tr>
+                <th>شماره</th>
+                <th>نام دارو</th>
+                <th>آنتی‌دوت</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- فهرست داروها و آنتی‌دوت‌ها در اینجا قرار می‌گیرد -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    const drugs = [
+        {number: 1, name: "استامینوفن", antidote: "N-استیل سیستئین"},
+        {number: 2, name: "مورفین", antidote: "نالوکسان"},
+        {number: 3, name: "دیازپام", antidote: "فلومزنیل"},
+        {number: 4, name: "وارفارین", antidote: "ویتامین K"},
+        {number: 5, name: "هپارین", antidote: "پروتامین سولفات"},
+        {number: 6, name: "دیگوکسین", antidote: "آنتی‌بادی ضد دیگوکسین"},
+        {number: 7, name: "آهن", antidote: "دفروکسامین"},
+        {number: 8, name: "سیانوکیت", antidote: "هیدروکسی‌کبالامین"},
+        {number: 9, name: "متانول", antidote: "فومپیزول یا اتانول"},
+        {number: 10, name: "اتیلن گلیکول", antidote: "فومپیزول یا اتانول"},
+        {number: 11, name: "بنزودیازپین‌ها", antidote: "فلومزنیل"},
+        {number: 12, name: "کوکائین", antidote: "بنزودیازپین‌ها"},
+        {number: 13, name: "آمیودارون", antidote: "سولفات منیزیم"},
+        {number: 14, name: "مس", antidote: "پنی‌سیلامین"},
+        {number: 15, name: "سرب", antidote: "ادتا (EDTA)"},
+        {number: 16, name: "آرسنیک", antidote: "دیمرکاپرول"},
+        {number: 17, name: "ایزونیازید", antidote: "پیریدوکسین"},
+        {number: 18, name: "کربن مونوکسید", antidote: "اکسیژن 100%"},
+        {number: 19, name: "لیتیم", antidote: "هیدراتاسیون شدید"},
+        {number: 20, name: "فلوروواوراسیل", antidote: "تیمیدین"},
+        {number: 21, name: "متوتروکسات", antidote: "لوکوورین (فولینیک اسید)"},
+        {number: 22, name: "فنوباربیتال", antidote: "بی‌کربنات سدیم"},
+        {number: 23, name: "سالیسیلات‌ها", antidote: "بی‌کربنات سدیم"},
+        {number: 24, name: "پاراتیون", antidote: "آتروپین + پریلیدوکسیم"},
+        {number: 25, name: "نئوستیگمین", antidote: "آتروپین"},
+        {number: 26, name: "تیوفیلین", antidote: "زغال فعال + همودیالیز"},
+        {number: 27, name: "کلروکین", antidote: "دیازپام"},
+        {number: 28, name: "نیکوتین", antidote: "درمان حمایتی"},
+        {number: 29, name: "فروس سولفات", antidote: "دفروکسامین"},
+        {number: 30, name: "پتاسیم کلرید", antidote: "گلوکونات کلسیم"},
+        {number: 31, name: "سیس پلاتین", antidote: "آمیل نیترات"},
+        {number: 32, name: "دی پنی سیلامین", antidote: "زغال فعال"},
+        {number: 33, name: "بوتاکلین", antidote: "درمان حمایتی"},
+        {number: 34, name: "کلروکین", antidote: "دیازپام"},
+        {number: 35, name: "اکسی‌کدون", antidote: "نالوکسان"},
+        {number: 36, name: "استریکنین", antidote: "درمان حمایتی"},
+        {number: 37, name: "دیفن‌هیدرامین", antidote: "زغال فعال"},
+        {number: 38, name: "تالیوم", antidote: "پرسیپیسیونی"},
+        {number: 39, name: "پنتوباربیتال", antidote: "بی‌کربنات سدیم"},
+        {number: 40, name: "هیدروکلروتیازید", antidote: "درمان حمایتی"},
+        {number: 41, name: "انواع نیکوتین", antidote: "درمان حمایتی"},
+        {number: 42, name: "گاز عصبی", antidote: "آتروپین و پریلیدوکسیم"},
+        {number: 43, name: "اتیلن گلیکول", antidote: "فومپیزول یا اتانول"},
+        {number: 44, name: "کلروکین", antidote: "دیازپام"},
+        {number: 45, name: "اکسی‌کدون", antidote: "نالوکسان"},
+        {number: 46, name: "استریکنین", antidote: "درمان حمایتی"},
+        {number: 47, name: "دیفن‌هیدرامین", antidote: "زغال فعال"},
+        {number: 48, name: "تالیوم", antidote: "پرسیپیسیونی"},
+        {number: 49, name: "پنتوباربیتال", antidote: "بی‌کربنات سدیم"},
+        {number: 50, name: "هیدروکلروتیازید", antidote: "درمان حمایتی"},
+        {number: 51, name: "متادون", antidote: "نالوکسان"},
+        {number: 52, name: "آمی‌تریپتیلین", antidote: "زغال فعال"},
+        {number: 53, name: "کلروفروم", antidote: "اکسیژن 100%"},
+        {number: 54, name: "سیکلوفسفامید", antidote: "مزنا"},
+        {number: 55, name: "کلونوپین", antidote: "فلومزنیل"},
+        {number: 56, name: "هیدروکسی‌کلروکین", antidote: "دیازپام"},
+        {number: 57, name: "فنوباربیتال", antidote: "بی‌کربنات سدیم"},
+        {number: 58, name: "پاراتیون", antidote: "آتروپین + پریلیدوکسیم"},
+        {number: 59, name: "نورتریپتیلین", antidote: "زغال فعال"},
+        {number: 60, name: "کاربامازپین", antidote: "همودیالیز"},
+        {number: 61, name: "فنیتوئین", antidote: "زغال فعال"},
+        {number: 62, name: "ایبوپروفن", antidote: "درمان حمایتی"},
+        {number: 63, name: "پلاویکس", antidote: "زغال فعال"},
+        {number: 64, name: "میدازولام", antidote: "فلومزنیل"},
+        {number: 65, name: "ایبوپروفن", antidote: "درمان حمایتی"},
+        {number: 66, name: "آلپرازولام", antidote: "فلومزنیل"},
+        {number: 67, name: "پتاسیم کلرید", antidote: "گلوکونات کلسیم"},
+        {number: 68, name: "متیل‌فنیدیت", antidote: "زغال فعال"},
+        {number: 69, name: "کلونوپین", antidote: "فلومزنیل"},
+        {number: 70, name: "الکل متیلیک", antidote: "فومپیزول یا اتانول"},
+        {number: 71, name: "دوکسپین", antidote: "زغال فعال"},
+        {number: 72, name: "پراپرانولول", antidote: "گلوکاگون"},
+        {number: 73, name: "تریامترن", antidote: "درمان حمایتی"},
+        {number: 74, name: "تیوپنتال", antidote: "زغال فعال"},
+        {number: 75, name: "کلومیپرامین", antidote: "زغال فعال"},
+        {number: 76, name: "کلوتیازید", antidote: "درمان حمایتی"},
+        {number: 77, name: "دکسترومتورفان", antidote: "زغال فعال"},
+        {number: 78, name: "فنی‌توئین", antidote: "زغال فعال"},
+        {number: 79, name: "استفامینوفن", antidote: "N-استیل سیستئین"},
+        {number: 80, name: "کدئین", antidote: "نالوکسان"},
+        {number: 81, name: "پتاسیم کلرید", antidote: "گلوکونات کلسیم"},
+        {number: 82, name: "گلوکوفاژ", antidote: "درمان حمایتی"},
+        {number: 83, name: "آمی‌تریپتیلین", antidote: "زغال فعال"},
+        {number: 84, name: "آسپرین", antidote: "بی‌کربنات سدیم"},
+        {number: 85, name: "مفنامیک اسید", antidote: "درمان حمایتی"},
+        {number: 86, name: "دکسترومتورفان", antidote: "زغال فعال"},
+        {number: 87, name: "دیازپام", antidote: "فلومزنیل"},
+        {number: 88, name: "کلروکین", antidote: "دیازپام"},
+        {number: 89, name: "نیکوتین", antidote: "درمان حمایتی"},
+        {number: 90, name: "آمی‌تریپتیلین", antidote: "زغال فعال"},
+        {number: 91, name: "پروپرانولول", antidote: "گلوکاگون"},
+        {number: 92, name: "کدئین", antidote: "نالوکسان"},
+        {number: 93, name: "پتاسیم", antidote: "گلوکونات کلسیم"},
+        {number: 94, name: "دوکسپین", antidote: "زغال فعال"},
+        {number: 95, name: "پراپرانولول", antidote: "گلوکاگون"},
+        {number: 96, name: "تریامترن", antidote: "درمان حمایتی"},
+        {number: 97, name: "استامینوفن", antidote: "N-استیل سیستئین"},
+        {number: 98, name: "مورفین", antidote: "نالوکسان"},
+        {number: 99, name: "دیازپام", antidote: "فلومزنیل"},
+        {number: 100, name: "وارفارین", antidote: "ویتامین K"}
+    ];
+    drugs.push(
+        {number: 101, name: "هپارین", antidote: "پروتامین سولفات"},
+        {number: 102, name: "آرسنیک", antidote: "دیمرکاپرول"},
+        {number: 103, name: "آلومینیوم", antidote: "دفروکسامین"},
+        {number: 104, name: "آمیودارون", antidote: "سولفات منیزیم"},
+        {number: 105, name: "بنزودیازپین‌ها", antidote: "فلومزنیل"},
+        {number: 106, name: "سیکلوفسفامید", antidote: "مزنا"},
+        {number: 107, name: "پتاسیم", antidote: "گلوکونات کلسیم"},
+        {number: 108, name: "کلروکین", antidote: "دیازپام"},
+        {number: 109, name: "نیتروپروساید", antidote: "تیوسولفات سدیم"},
+        {number: 110, name: "مورفین", antidote: "نالوکسان"},
+        {number: 111, name: "دیگوکسین", antidote: "آنتی‌بادی ضد دیگوکسین"},
+        {number: 112, name: "آرسنیک", antidote: "دیمرکاپرول"},
+        {number: 113, name: "تتراکلرید کربن", antidote: "اکسیژن 100%"},
+        {number: 114, name: "متیل الکل", antidote: "فومپیزول یا اتانول"},
+        {number: 115, name: "سربی", antidote: "EDTA یا دیمرکاپرول"},
+        {number: 116, name: "ایزونیازید", antidote: "پیریدوکسین"},
+        {number: 117, name: "پاراتیون", antidote: "آتروپین + پریلیدوکسیم"},
+        {number: 118, name: "آمی‌تریپتیلین", antidote: "زغال فعال"},
+        {number: 119, name: "متادون", antidote: "نالوکسان"},
+        {number: 120, name: "اتیلن گلیکول", antidote: "فومپیزول یا اتانول"},
+        {number: 121, name: "نورتریپتیلین", antidote: "زغال فعال"},
+        {number: 122, name: "اکسیکودون", antidote: "نالوکسان"},
+        {number: 123, name: "پتاسیم کلرید", antidote: "گلوکونات کلسیم"},
+        {number: 124, name: "تالیوم", antidote: "دیمرکاپرول"},
+        {number: 125, name: "کدئین", antidote: "نالوکسان"},
+        {number: 126, name: "نیکوتین", antidote: "درمان حمایتی"},
+        {number: 127, name: "کلروکین", antidote: "دیازپام"},
+        {number: 128, name: "فنوباربیتال", antidote: "بی‌کربنات سدیم"},
+        {number: 129, name: "گلوکوفاژ", antidote: "درمان حمایتی"},
+        {number: 130, name: "آلپرازولام", antidote: "فلومزنیل"},
+        {number: 131, name: "دوکسپین", antidote: "زغال فعال"},
+        {number: 132, name: "فروس سولفات", antidote: "دفروکسامین"},
+        {number: 133, name: "پروپرانولول", antidote: "گلوکاگون"},
+        {number: 134, name: "لیدوکائین", antidote: "درمان حمایتی"},
+        {number: 135, name: "تریامترن", antidote: "درمان حمایتی"},
+        {number: 136, name: "هیدروکسی کلروکین", antidote: "دیازپام"},
+        {number: 137, name: "پراپرانولول", antidote: "گلوکاگون"},
+        {number: 138, name: "کلوزاپین", antidote: "درمان حمایتی"},
+        {number: 139, name: "ارسنیک", antidote: "دیمرکاپرول"},
+        {number: 140, name: "آمینوفیلین", antidote: "زغال فعال"},
+        {number: 141, name: "پلاویکس", antidote: "زغال فعال"},
+        {number: 142, name: "کینین", antidote: "دیفنیل هیدرامین"},
+        {number: 143, name: "فنی‌توئین", antidote: "زغال فعال"},
+        {number: 144, name: "والپروئیک اسید", antidote: "ال-کارنیتین"},
+        {number: 145, name: "سیکلوسپورین", antidote: "درمان حمایتی"},
+        {number: 146, name: "ایبوپروفن", antidote: "درمان حمایتی"},
+        {number: 147, name: "انواع مورفین", antidote: "نالوکسان"},
+        {number: 148, name: "کافئین", antidote: "زغال فعال"},
+        {number: 149, name: "دیگوکسین", antidote: "آنتی‌بادی ضد دیگوکسین"},
+        {number: 150, name: "فنوباربیتال", antidote: "بی‌کربنات سدیم"},
+        {number: 151, name: "دوکسپین", antidote: "زغال فعال"},
+        {number: 152, name: "بنزودیازپین‌ها", antidote: "فلومزنیل"},
+        {number: 153, name: "تریامترن", antidote: "درمان حمایتی"},
+        {number: 154, name: "کدئین", antidote: "نالوکسان"},
+        {number: 155, name: "پتاسیم کلرید", antidote: "گلوکونات کلسیم"},
+        {number: 156, name: "دیازپام", antidote: "فلومزنیل"},
+        {number: 157, name: "کارودیلول", antidote: "درمان حمایتی"},
+        {number: 158, name: "پروپرانولول", antidote: "گلوکاگون"},
+        {number: 159, name: "دیمن هیدرینات", antidote: "زغال فعال"},
+        {number: 160, name: "مورفین", antidote: "نالوکسان"},
+        {number: 161, name: "آلومینیوم", antidote: "دفروکسامین"},
+        {number: 162, name: "فورسیتید", antidote: "زغال فعال"},
+        {number: 163, name: "پلاویکس", antidote: "زغال فعال"},
+        {number: 164, name: "پروپرانولول", antidote: "گلوکاگون"},
+        {number: 165, name: "پتاسیم", antidote: "گلوکونات کلسیم"},
+        {number: 166, name: "مورفین", antidote: "نالوکسان"},
+        {number: 167, name: "ارسنیک", antidote: "دیمرکاپرول"},
+        {number: 168, name: "پتاسیم کلرید", antidote: "گلوکونات کلسیم"},
+        {number: 169, name: "پنتوباربیتال", antidote: "بی‌کربنات سدیم"},
+        {number: 170, name: "گلوکوفاژ", antidote: "درمان حمایتی"},
+        {number: 171, name: "فنوباربیتال", antidote: "بی‌کربنات سدیم"},
+        {number: 172, name: "سیکلوفسفامید", antidote: "مزنا"},
+        {number: 173, name: "متیل فنیدیت", antidote: "زغال فعال"},
+        {number: 174, name: "کدئین", antidote: "نالوکسان"},
+        {number: 175, name: "کلروکین", antidote: "دیازپام"},
+        {number: 176, name: "کلونازپام", antidote: "فلومزنیل"},
+        {number: 177, name: "فنوباربیتال", antidote: "بی‌کربنات سدیم"},
+        {number: 178, name: "آلپرازولام", antidote: "فلومزنیل"},
+        {number: 179, name: "مورفین", antidote: "نالوکسان"},
+        {number: 180, name: "پنتوباربیتال", antidote: "بی‌کربنات سدیم"},
+        {number: 181, name: "گلوکوفاژ", antidote: "درمان حمایتی"},
+        {number: 182, name: "کلونوپین", antidote: "فلومزنیل"},
+        {number: 183, name: "کافئین", antidote: "زغال فعال"},
+        {number: 184, name: "کدئین", antidote: "نالوکسان"},
+        {number: 185, name: "پتاسیم کلرید", antidote: "گلوکونات کلسیم"},
+        {number: 186, name: "پروپرانولول", antidote: "گلوکاگون"},
+        {number: 187, name: "دوکسپین", antidote: "زغال فعال"},
+        {number: 188, name: "آرسنیک", antidote: "دیمرکاپرول"},
+        {number: 189, name: "هپارین", antidote: "پروتامین سولفات"},
+        {number: 190, name: "سیکلوفسفامید", antidote: "مزنا"},
+        {number: 191, name: "پروپرانولول", antidote: "گلوکاگون"},
+        {number: 192, name: "فنوباربیتال", antidote: "بی‌کربنات سدیم"},
+        {number: 193, name: "فروس سولفات", antidote: "دفروکسامین"},
+        {number: 194, name: "کلروکین", antidote: "دیازپام"},
+        {number: 195, name: "دوکسپین", antidote: "زغال فعال"},
+        {number: 196, name: "پنتوباربیتال", antidote: "بی‌کربنات سدیم"},
+        {number: 197, name: "کافئین", antidote: "زغال فعال"},
+        {number: 198, name: "آمفتامین", antidote: "درمان حمایتی"},
+        {number: 199, name: "وارفارین", antidote: "ویتامین K"},
+        {number: 200, name: "استامینوفن", antidote: "N-استیل سیستئین"}
+    );
+
+    function populateTable() {
+        const tbody = document.getElementById("drugTable").querySelector("tbody");
+        tbody.innerHTML = drugs.map(drug => 
+            `<tr>
+                <td>${drug.number}</td>
+                <td>${drug.name}</td>
+                <td>${drug.antidote}</td>
+            </tr>`
+        ).join('');
+    }
+
+    function searchDrug() {
+        const input = document.getElementById("search").value.toLowerCase().trim();
+        const resultDiv = document.getElementById("result");
+        const filteredDrugs = drugs.filter(drug => 
+            drug.name.toLowerCase().includes(input) || 
+            drug.antidote.toLowerCase().includes(input)
+        );
+
+        if (filteredDrugs.length > 0) {
+            resultDiv.innerHTML = `<p><strong>نتایج جستجو:</strong></p>`;
+            resultDiv.innerHTML += `<table><thead><tr><th>شماره</th><th>نام دارو</th><th>آنتی‌دوت</th></tr></thead><tbody>${
+                filteredDrugs.map(drug => 
+                    `<tr>
+                        <td>${drug.number}</td>
+                        <td>${drug.name}</td>
+                        <td>${drug.antidote}</td>
+                    </tr>`
+                ).join('')
+            }</tbody></table>`;
+        } else {
+            resultDiv.innerHTML = `<p class="not-found">هیچ دارو یا آنتی‌دوتی یافت نشد. لطفاً نام صحیح را وارد کنید.</p>`;
+        }
+    }
+
+    window.onload = populateTable;
+</script>
+
+</body>
+</html>

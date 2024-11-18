@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفسیر گازهای خون وریدی و شریانی (VBG/ABG)</title>
+    <style>
+        /* استایل‌های پایه */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        h2 {
+            color: #4ca1af;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4ca1af;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #35788e;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f1f8e9;
+            border-radius: 5px;
+            display: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            text-align: left;
+        }
+
+        .result-normal {
+            color: #4caf50;
+        }
+
+        .result-warning {
+            color: #ff9800;
+        }
+
+        .result-danger {
+            color: #f44336;
+            animation: blink 1s step-start infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0.7;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>تفسیر گازهای خون شریانی (VBG)</h2>
+
+    <label for="ph">pH (محدوده: 6.8 - 7.8):</label>
+    <input type="number" id="ph" step="0.01" placeholder="مثلاً 7.35" required>
+
+    <label for="pco2">سطح PCO₂ (mmHg) (محدوده: 10 - 90):</label>
+    <input type="number" id="pco2" step="0.1" placeholder="مثلاً 40" required>
+
+    <label for="hco3">سطح HCO₃ (mEq/L) (محدوده: 5 - 40):</label>
+    <input type="number" id="hco3" step="0.1" placeholder="مثلاً 24" required>
+
+    <button onclick="interpretVBG()">تحلیل و تفسیر</button>
+
+    <div id="result"></div>
+</div>
+<script>
+    function interpretVBG() {
+        // گرفتن مقادیر ورودی از کاربر
+        const ph = parseFloat(document.getElementById("ph").value);
+        const pco2 = parseFloat(document.getElementById("pco2").value);
+        const hco3 = parseFloat(document.getElementById("hco3").value);
+        const resultDiv = document.getElementById("result");
+
+        // بررسی صحت ورودی‌ها و نمایش خطا در صورت نیاز
+        if (isNaN(ph) || isNaN(pco2) || isNaN(hco3) || ph <= 0 || pco2 <= 0 || hco3 <= 0) {
+            resultDiv.innerHTML = "<p class='result-danger'>لطفاً تمامی مقادیر معتبر و در محدوده‌ی صحیح وارد کنید.</p>";
+            resultDiv.className = "result-danger";
+            resultDiv.style.display = "block";
+            return;
+        }
+
+        // تحلیل مقادیر و تفسیر نتایج
+        let diagnosis = "";
+        let compensation = "";
+        let additionalNote = "";
+        let urgencyClass = "result-normal"; 
+
+        // تعیین وضعیت pH (تشخیص اولیه اسیدوز یا آلکالوز)
+        if (ph < 7.35) {
+            diagnosis = "اسیدوز";
+        } else if (ph > 7.45) {
+            diagnosis = "آلکالوز";
+        } else {
+            diagnosis = "pH نرمال";
+        }
+
+        // تفسیر نوع اسیدوز یا آلکالوز (تنفسی یا متابولیک)
+        if (diagnosis === "اسیدوز") {
+            if (pco2 > 45) {
+                diagnosis += " تنفسی (افزایش PCO₂)";
+                compensation = hco3 > 26 ? "بدن در حال جبران با افزایش HCO₃ است." : "بدن هنوز جبرانی انجام نداده است.";
+                additionalNote = "این حالت ممکن است به دلیل مشکلات تنفسی مانند COPD یا سرکوب تنفسی باشد.";
+            } else if (hco3 < 22) {
+                diagnosis += " متابولیک (کاهش HCO₃)";
+                compensation = pco2 < 35 ? "بدن در حال جبران با کاهش PCO₂ است." : "بدن هنوز جبرانی انجام نداده است.";
+                additionalNote = "این وضعیت می‌تواند به دلیل اسهال شدید، نارسایی کلیه یا دیابت کنترل نشده رخ دهد.";
+            }
+        } else if (diagnosis === "آلکالوز") {
+            if (pco2 < 35) {
+                diagnosis += " تنفسی (کاهش PCO₂)";
+                compensation = hco3 < 22 ? "بدن در حال جبران با کاهش HCO₃ است." : "بدن هنوز جبرانی انجام نداده است.";
+                additionalNote = "این حالت ممکن است به دلیل هیپرونتیلاسیون (مانند استرس یا اضطراب) ایجاد شده باشد.";
+            } else if (hco3 > 26) {
+                diagnosis += " متابولیک (افزایش HCO₃)";
+                compensation = pco2 > 45 ? "بدن در حال جبران با افزایش PCO₂ است." : "بدن هنوز جبرانی انجام نداده است.";
+                additionalNote = "این وضعیت ممکن است ناشی از مصرف بیش از حد داروهای قلیایی یا استفراغ مداوم باشد.";
+            }
+        } else {
+            // وضعیت جبران شده (در محدوده نرمال با تغییر مقادیر PCO₂ یا HCO₃)
+            if ((pco2 > 45 && hco3 > 26) || (pco2 < 35 && hco3 < 22)) {
+                compensation = "وضعیت جبران کامل؛ pH به محدوده طبیعی بازگشته است.";
+                additionalNote = "بدن به خوبی توانسته است سطح pH را با جبران مناسب به حالت طبیعی بازگرداند.";
+            } else {
+                compensation = "pH در محدوده طبیعی است و مشکلی دیده نمی‌شود.";
+                additionalNote = "نیازی به نگرانی نیست.";
+            }
+        }
+
+        // بررسی شرایط اورژانسی
+        if (ph < 7.20 || pco2 > 60) {
+            urgencyClass = "result-danger";
+            additionalNote = "وضعیت اورژانسی؛ اقدامات فوری پزشکی لازم است!";
+        } else if (ph < 7.35 || ph > 7.45) {
+            urgencyClass = "result-warning";
+        }
+
+        // نمایش نتیجه نهایی به همراه پیام‌ها و کلاس مناسب
+        resultDiv.className = "";
+        resultDiv.classList.add("result", urgencyClass);
+        resultDiv.innerHTML = `
+            <p><strong>تشخیص:</strong> ${diagnosis}</p>
+            <p><strong>وضعیت جبرانی:</strong> ${compensation}</p>
+            <p><strong>توضیحات:</strong> ${additionalNote}</p>
+        `;
+        resultDiv.style.display = "block";
+    }
+</script>
+</body>
+</html>

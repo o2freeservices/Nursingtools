@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الگوریتم احیای قلبی پیشرفته بزرگسالان - 2020</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            text-align: center;
+        }
+        .back-button {
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: #1e90ff;
+            color: #fff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .back-button:hover {
+            background-color: #4682b4;
+        }
+        .card-container {
+            width: 100%;
+            max-width: 600px;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+        }
+        .card-header {
+            padding: 15px 20px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .card-content {
+            display: none;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .card-content p {
+            margin: 0;
+        }
+        .card.red .card-header {
+            background-color: #ff4d4d;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>راهنمای کامل الگوریتم احیای قلبی پیشرفته بزرگسالان</h1>
+
+    <!-- محتوای CPR -->
+    <div class="card-container">
+        <div class="card" onclick="toggleCard(1)">
+            <div class="card-header">مرحله ۱: شروع فوری</div>
+            <div class="card-content" id="content1">
+                <p>۱. شروع CPR (فشار قفسه سینه بدهید).</p>
+                <p>۲. برقراری اکسیژن.</p>
+                <p>۳. اتصال بیمار به مانیتور و دفیبریلاتور برای بررسی ریتم قلبی.</p>
+            </div>
+        </div>
+
+        <div class="card red" onclick="toggleCard(2)">
+            <div class="card-header">مرحله ۲: آیا ریتم قابل شوک است؟</div>
+            <div class="card-content" id="content2">
+                <p>اگر ریتم VF/VT (فیبریلاسیون بطنی یا تاکی‌کاردی بطنی بدون نبض) باشد که قابل شوک است:</p>
+                <p>۱. اولین شوک را اعمال کنید.</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(3)">
+            <div class="card-header">مرحله ۳: CPR به مدت ۲ دقیقه</div>
+            <div class="card-content" id="content3">
+                <p>۱. بعد از شوک، بلافاصله CPR را به مدت ۲ دقیقه شروع کنید.</p>
+                <p>۲. برقراری IV/IO (وریدی یا داخل استخوانی) برای دسترسی دارویی.</p>
+                <p>۳. بررسی مجدد ریتم: آیا ریتم قابل شوک است؟</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(4)">
+            <div class="card-header">مرحله ۴: آیا ریتم قابل شوک است؟</div>
+            <div class="card-content" id="content4">
+                <p>اگر ریتم هنوز قابل شوک است:</p>
+                <p>۱. دومین شوک را اعمال کنید.</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(5)">
+            <div class="card-header">مرحله ۵: CPR به مدت ۲ دقیقه</div>
+            <div class="card-content" id="content5">
+                <p>۱. بعد از شوک دوم، CPR را به مدت ۲ دقیقه ادامه دهید.</p>
+                <p>۲. تجویز اپی‌نفرین 1 میلی‌گرم هر ۳ تا ۵ دقیقه.</p>
+                <p>۳. تجویز آمیودارون 300 میلی‌گرم یا لیدوکائین به عنوان داروی ضد آریتمی.</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(6)">
+            <div class="card-header">مرحله ۶: آیا ریتم قابل شوک است؟</div>
+            <div class="card-content" id="content6">
+                <p>اگر ریتم همچنان قابل شوک است:</p>
+                <p>۱. سومین شوک را اعمال کنید.</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(7)">
+            <div class="card-header">مرحله ۷: CPR به مدت ۲ دقیقه</div>
+            <div class="card-content" id="content7">
+                <p>۱. بعد از شوک سوم، CPR را به مدت ۲ دقیقه ادامه دهید.</p>
+                <p>۲. تجویز آمیودارون 150 میلی‌گرم یا لیدوکائین برای کنترل آریتمی.</p>
+                <p>۳. اصلاح علل برگشت‌پذیر.</p>
+            </div>
+        </div>
+
+        <div class="card red" onclick="toggleCard(8)">
+            <div class="card-header">مرحله ۸: آیا ریتم قابل شوک است؟</div>
+            <div class="card-content" id="content8">
+                <p>اگر ریتم غیرقابل شوک (Asystole/PEA) باشد:</p>
+                <p>۱. CPR را ادامه دهید.</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(9)">
+            <div class="card-header">مرحله ۹: CPR به مدت ۲ دقیقه</div>
+            <div class="card-content" id="content9">
+                <p>۱. CPR را به مدت ۲ دقیقه ادامه دهید.</p>
+                <p>۲. تجویز اپی‌نفرین 1 میلی‌گرم هر ۳ تا ۵ دقیقه.</p>
+                <p>۳. بررسی علل برگشت‌پذیر و اصلاح آن‌ها.</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(10)">
+            <div class="card-header">شناسایی Asystole و PEA و VF/VT بدون نبض</div>
+            <div class="card-content" id="content10">
+                <p>ریتم‌های غیرقابل شوک:</p>
+                <img src="https://iranvarzesh666.site/Pics/Asystole.jpg" alt="Asystole">
+                <p>ریتم‌های قابل شوک:</p>
+                <img src="https://iranvarzesh666.site/Pics/VT-and-VF-768x520.jpg" alt="VT and VF">
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(11)">
+            <div class="card-header">میزان ژول شوک</div>
+            <div class="card-content" id="content11">
+                <p><strong>بزرگسالان:</strong> شروع با 120-200 ژول در دفیبریلاتورهای دو فازی. در صورت عدم موفقیت، افزایش به دوز بالاتر.</p>
+                <p><strong>اطفال:</strong> شروع با 2 ژول بر کیلوگرم و در صورت نیاز، دوز را تا 4 ژول بر کیلوگرم افزایش دهید.</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(12)">
+            <div class="card-header">افزایش کیفیت CPR</div>
+            <div class="card-content" id="content12">
+                <p>۱. عمق ماساژ: حدود ۵-۶ سانتی‌متر در بزرگسالان و ۴ سانتی‌متر در اطفال.</p>
+                <p>۲. سرعت ماساژ: 100-120 ماساژ در دقیقه.</p>
+                <p>۳. استفاده از کاپنوگرافی برای ارزیابی اثربخشی CPR (سطح CO₂ بین ۱۰ تا ۲۰ میلی‌متر جیوه نشان‌دهنده کیفیت مناسب است).</p>
+                <p>۴. اطمینان از بازگشت کامل قفسه سینه بین ماساژها.</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(13)">
+            <div class="card-header">دارو درمانی و دوزاژ</div>
+            <div class="card-content" id="content13">
+                <p><strong>بزرگسالان:</strong></p>
+                <ul>
+                    <li>اپی‌نفرین: 1 میلی‌گرم هر ۳ تا ۵ دقیقه IV/IO</li>
+                    <li>آمیودارون: دوز اول 300 میلی‌گرم، دوز دوم 150 میلی‌گرم</li>
+                    <li>لیدوکائین (جایگزین آمیودارون): 1 تا 1.5 میلی‌گرم بر کیلوگرم</li>
+                    <li>آتروپین: برای موارد برادیکاردی شدید، 1 میلی‌گرم هر 3 تا 5 دقیقه تا حداکثر 3 میلی‌گرم.</li>
+                </ul>
+                <p><strong>اطفال:</strong></p>
+                <ul>
+                    <li>اپی‌نفرین: 0.01 میلی‌گرم بر کیلوگرم هر ۳ تا ۵ دقیقه IV/IO</li>
+                    <li>آمیودارون: 5 میلی‌گرم بر کیلوگرم تا حداکثر ۲ بار</li>
+                    <li>لیدوکائین: 1 میلی‌گرم بر کیلوگرم</li>
+                    <li>آتروپین: برای برادیکاردی شدید، 0.02 میلی‌گرم بر کیلوگرم؛ حداقل دوز 0.1 و حداکثر دوز 0.5 میلی‌گرم.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(14)">
+            <div class="card-header">راه هوایی پیشرفته</div>
+            <div class="card-content" id="content14">
+                <p>۱. استفاده از لوله تراشه، ماسک حنجره‌ای، یا سایر وسایل راه هوایی پیشرفته.</p>
+                <p>۲. میزان تنفس: 10-12 تنفس در دقیقه (یک تنفس هر ۵-۶ ثانیه) در بزرگسالان و 12-20 در اطفال.</p>
+                <p>۳. نظارت بر کاپنوگرافی برای اطمینان از تهویه مناسب.</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(15)">
+            <div class="card-header">علل برگشت‌پذیر ایست قلبی</div>
+            <div class="card-content" id="content15">
+                <p><strong>5H:</strong></p>
+                <ul>
+                    <li>هیپوکسی</li>
+                    <li>هیپوولمی</li>
+                    <li>هیپو/هایپرکالمی</li>
+                    <li>هیپوترمی</li>
+                    <li>اسیدوز متابولیک (هیدروژن یون)</li>
+                </ul>
+                <p><strong>5T:</strong></p>
+                <ul>
+                    <li>تامپوناد قلبی</li>
+                    <li>پنوموتوراکس فشاری</li>
+                    <li>ترومبوز عروق کرونر (حمله قلبی)</li>
+                    <li>ترومبوز شریان ریوی (آمبولی ریوی)</li>
+                    <li>مسمومیت</li>
+                </ul>
+                <p><strong>نشانه‌های بازگشت خودبه‌خودی گردش خون (ROSC):</strong></p>
+                <ul>
+                    <li>بازگشت نبض و فشار خون</li>
+                    <li>افزایش سطح CO₂ بازدمی (کاپنوگرافی)</li>
+                    <li>حرکات هدفمند و آگاهانه بیمار</li>
+                    <li>بهبود رنگ پوست و علائم حیات</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>این برنامه توسط محمدرضا شهسواری - کارشناس پرستاری طراحی و توسعه داده شده است.</p>
+        <p>برای حمایت، <a href="https://www.coffeebede.com/o2free" class="footer-link">یک قهوه مهمانم کنید</a> یا از <a href="https://www.instagram.com/r_shahsavari/profilecard/?igsh=MWRmOW9sdWdvemNvcA==" class="footer-link">اینستاگرام</a> من دیدن کنید.</p>
+    </footer>
+
+    <script>
+        function toggleCard(cardNumber) {
+            const allCards = document.querySelectorAll('.card-content');
+            allCards.forEach((card, index) => {
+                card.style.display = index + 1 === cardNumber && card.style.display !== 'block' ? 'block' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>
+

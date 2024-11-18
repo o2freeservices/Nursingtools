@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ابزارهای پرستاری آسان</title>
+    <style>
+        /* استایل اصلی بدنه */
+        body {
+            font-family: 'Roboto', sans-serif;
+            direction: rtl;
+            background: linear-gradient(135deg, #e0f7fa, #80deea);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            animation: backgroundAnimation 8s ease-in-out infinite alternate;
+        }
+
+        /* انیمیشن پس‌زمینه */
+        @keyframes backgroundAnimation {
+            0% { background: linear-gradient(135deg, #e0f7fa, #80deea); }
+            100% { background: linear-gradient(135deg, #b2ebf2, #4dd0e1); }
+        }
+
+        /* استایل اصلی کانتینر */
+        .container {
+            max-width: 1200px;
+            width: 95%;
+            margin: auto;
+            padding: 20px;
+            text-align: center;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        /* عنوان اصلی با استایل گرافیکی */
+        h1 {
+            color: #00796b;
+            margin-top: 20px;
+            font-size: 3rem;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        /* افکت pulse برای عنوان */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* استایل ساعت دیجیتال */
+        .clock {
+            font-size: 2.5rem;
+            color: #ffffff;
+            background: #00796b;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+            margin-top: 20px;
+            animation: bounce 2s infinite alternate;
+        }
+        .date {
+            font-size: 1rem;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        /* انیمیشن bounce برای ساعت */
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* شبکه دایره‌ها */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 30px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        /* کارت‌های دایره‌ای ابزارها */
+        .tool-circle {
+            width: 160px;
+            height: 160px;
+            background-color: #f1f8e9;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.5s, box-shadow 0.4s, background-color 0.4s;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        /* افکت‌های hover برای کارت‌ها */
+        .tool-circle:hover {
+            transform: scale(1.1) rotate(-5deg);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            background-color: #e8f5e9;
+        }
+        .tool-circle:hover::before {
+            transform: scale(1.5) rotate(15deg);
+        }
+        .tool-circle::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(0,179,134,0.1), transparent);
+            transition: transform 0.6s ease;
+        }
+
+        /* لینک و متن کارت‌ها */
+        .tool-circle span {
+            color: #00796b;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+            z-index: 1;
+        }
+        .tool-circle p {
+            color: #555;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            z-index: 1;
+        }
+
+        /* استایل برای کادر پایینی */
+        .footer-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            width: 200px;
+            height: 50px;
+            border-radius: 25px;
+            color: #fff;
+            font-weight: bold;
+            background-color: #8d6e63;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .footer-link:hover {
+            background-color: #795548;
+            transform: scale(1.05);
+        }
+        .footer-link a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        /* استایل خاص برای کادر طراحان */
+        .designer {
+            background-color: #ffccbc;
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            color: #5d4037;
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .designer:hover {
+            transform: scale(1.05);
+        }
+
+        /* استایل خاص برای لینک‌های طراحان */
+        .designer a {
+            color: #5d4037;
+            font-weight: bold;
+            font-size: 1rem;
+            text-decoration: none;
+            margin: 0 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            transition: color 0.3s, transform 0.3s;
+        }
+        .designer a:hover {
+            color: #d84315;
+            transform: scale(1.1);
+        }
+
+        /* افکت fade-in برای ورودی آرام‌تر */
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>ابزارهای پرستاری آسان</h1>
+
+    <!-- ساعت دیجیتال و تاریخ -->
+    <div class="clock" id="clock">00:00:00</div>
+    <div class="date" id="date"></div>
+
+    <!-- لیست ابزارهای پرستاری -->
+    <div class="tools-grid">
+        <a class="tool-circle" href="https://iranvarzesh666.site/Nursetools/Antidota.html">
+            <span>دارو و آنتی دوت‌ها</span>
+            <p>لیست داروها و آنتی‌دوت‌های مهم در محیط بیمارستانی.</p>
+        </a>
+        <a class="tool-circle" href="https://iranvarzesh666.site/Nursetools/Bmi.html">
+            <span>محاسبه‌گر BMI</span>
+            <p>ابزار محاسبه شاخص توده بدنی (BMI) برای ارزیابی وزن بیمار.</p>
+        </a>
+        <a class="tool-circle" href="https://iranvarzesh666.site/Nursetools/Bradenmors.html">
+            <span>محاسبه‌گر برادن و مورس</span>
+            <p>ابزاری برای ارزیابی خطر زخم بستر و سقوط بیماران.</p>
+        </a>
+        <a class="tool-circle" href="https://iranvarzesh666.site/Nursetools/Burning.html">
+            <span>محاسبه‌گر درصد سوختگی</span>
+            <p>محاسبه درصد سوختگی بدن بیمار برای تصمیم‌گیری درمانی.</p>
+        </a>
+        <a class="tool-circle" href="https://iranvarzesh666.site/Nursetools/Dobo.html">
+            <span>محاسبه‌گر دوز داروی دوبوتامین و دوپامین</span>
+            <p>ابزار محاسبه دوز داروهای حیاتی دوبوتامین و دوپامین.</p>
+        </a>
+        <a class="tool-circle" href="https://iranvarzesh666.site/Nursetools/Dropscal.html">
+            <span>محاسبه‌گر تعداد قطرات سرم</span>
+            <p>ابزاری برای محاسبه تعداد قطرات سرم و تنظیم سرعت تزریق.</p>
+        </a>
+        <a class="tool-circle" href="https://iranvarzesh666.site/Nursetools/Gcs.html">
+            <span>محاسبه‌گر GCS</span>
+            <p>ارزیابی وضعیت هوشیاری بیمار با استفاده از مقیاس GCS.</p>
+        </a>
+        <a class="tool-circle" href="https://iranvarzesh666.site/Nursetools/Tng.html">
+            <span>محاسبه‌گر داروی TNG</span>
+            <p>محاسبه دوز داروی TNG برای بیماران قلبی.</p>
+        </a>
+        <a class="tool-circle" href="https://iranvarzesh666.site/Nursetools/Vbg.html">
+            <span>تفسیرگر آزمایش VBG / ABG</span>
+            <p>تفسیر نتایج گازهای خون و ارزیابی وضعیت اسید-باز.</p>
+        </a>
+        <a class="tool-circle" href="https://iranvarzesh666.site/Nursetools/Laboratory.html">
+            <span>آزمایشگاه</span>
+            <p>اطلاعات جامع درباره آزمایشات و محدوده‌های نرمال.</p>
+        </a>
+        <a class="tool-circle" href="https://iranvarzesh666.site/Nursetools/Dosage.html">
+            <span>محاسبه‌گر حجم دارو</span>
+            <p>محاسبه دقیق حجم دارو برای تزریق‌های بیمارستانی.</p>
+        </a>
+        <a class="tool-circle" href="https://iranvarzesh666.site/Nursetools/Dosageothers.html">
+            <span>محاسبه‌گر دوز سایر داروها</span>
+            <p>ابزاری برای محاسبه دوز داروهای مختلف.</p>
+        </a>
+        <a class="tool-circle" href="https://iranvarzesh666.site/Nursetools/Cpr.html">
+            <span>CPR</span>
+            <p>راهنمای احیای قلبی-ریوی برای شرایط اورژانسی.</p>
+        </a>
+        <a class="tool-circle" href="https://iranvarzesh666.site/Nursetools/Serum.html">
+            <span>سرم شناسی</span>
+            <p>راهنمای آشنایی با انواع سرم ها.</p>
+        </a>
+        <a class="tool-circle" href="https://iranvarzesh666.site/Nursetools/ccudrugs.html">
+            <span>داروخانه قلب و عروق</span>
+            <p>آشنایی با داروهای قلب و عروق</p>
+        </a>
+        <a class="tool-circle" href="https://iranvarzesh666.site/Nursetools/Library.html">
+            <span>کتابخانه</span>
+            <p>دسترسی به کتابخانه و جزوات آموزشی مفید</p>
+        </a>
+        <a class="tool-circle" href="https://iranvarzesh666.site/Nursetools/ecgread.html">
+            <span>تفسیر ECG</span>
+            <p>آشنایی با نوار قلب</p>
+        </a>                                
+    </div>
+
+    <!-- لینک قهوه و طراحان -->
+    <div class="footer-link">
+        <a href="https://www.coffeebede.com/o2free">یک قهوه مهمونم کن!</a>
+    </div>
+    <div class="designer">
+        طراحی و توسعه این ابزار توسط:
+        <a href="https://www.instagram.com/r_shahsavari/profilecard/?igsh=MWRmOW9sdWdvemNvcA==" target="_blank">محمدرضا شهسواری</a> و
+        <a href="https://www.instagram.com/dr_narouei_nursing_edu?igsh=ZzcxZjAxdGw5eXdw" target="_blank">دکتر سلیمان ناروئی</a>
+    </div>
+</div>
+
+<script>
+    // تابع برای بروزرسانی ساعت و تاریخ با افکت‌های زیباتر
+    function updateClockAndDate() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+
+        // تاریخ میلادی و شمسی
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const gregorianDate = now.toLocaleDateString('fa-IR', options);
+        document.getElementById('date').textContent = `تاریخ میلادی: ${now.toLocaleDateString('en-US', options)} - تاریخ شمسی: ${gregorianDate}`;
+    }
+
+    setInterval(updateClockAndDate, 1000);
+</script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>آمار بازدیدها و کاربران آنلاین</title>
+    <style>
+        .counter-box {
+            font-size: 18px;
+            color: #4a4a4a;
+            background: #f3f3f3;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+            max-width: 300px;
+            margin: auto;
+        }
+        .counter-box h3 {
+            margin: 10px 0;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>آمار بازدیدها و کاربران آنلاین</title>
+    <style>
+        /* استایل جدید برای کادر آمار بازدید */
+        .counter-box {
+            font-size: 18px;
+            color: #ffffff;
+            background: #00796b;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 20px;
+            max-width: 1000px;
+            width: 90%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* استایل برای هر بخش از آمار */
+        .counter-box p {
+            font-size: 1.1rem;
+            margin: 0 15px;
+        }
+
+        .counter-box span {
+            font-weight: bold;
+            color: #ffeb3b;
+        }
+
+        /* تنظیمات responsive برای دستگاه‌های کوچک */
+        @media (max-width: 768px) {
+            .counter-box {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+
+    <!-- آمار بازدیدها و کاربران آنلاین -->
+    <div class="counter-box">
+        <p>بازدیدهای امروز: <span id="dailyViews">0</span></p>
+        <p>بازدیدهای کل: <span id="totalViews">0</span></p>
+        <p>کاربران آنلاین: <span id="onlineCount">0</span></p>
+    </div>
+</div>
+
+<script>
+    // تابع بروزرسانی آمار بازدید و کاربران آنلاین
+    function updateStats() {
+        // دریافت اطلاعات کاربران آنلاین
+        fetch('online.php')
+            .then(response => response.text())
+            .then(count => {
+                document.getElementById('onlineCount').textContent = count;
+            })
+            .catch(error => console.error('خطا در بارگیری کاربران آنلاین:', error));
+
+        // دریافت اطلاعات بازدیدها
+        fetch('views.php')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('dailyViews').textContent = data.daily_views;
+                document.getElementById('totalViews').textContent = data.total_views;
+            })
+            .catch(error => console.error('خطا در بارگیری آمار بازدید:', error));
+    }
+
+    // بروزرسانی هر 10 ثانیه
+    updateStats();
+    setInterval(updateStats, 10000);
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>دیدگاه‌ها</title>
+    <style>
+        body {
+            font-family: 'IranSans', Arial, sans-serif; /* تغییر فونت به فونت فارسی */
+            direction: rtl;
+            background: #f5f5f5; /* تغییر رنگ پس‌زمینه به یک رنگ ملایم */
+            color: #444;
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #00695c; /* رنگ هدینگ */
+            font-size: 24px;
+            text-align: center;
+        }
+
+        /* تنظیمات بخش دیدگاه‌ها برای متمایل کردن به سمت راست */
+        #comments {
+            direction: rtl; /* تنظیم جهت نمایش دیدگاه‌ها */
+            text-align: right; /* چیدمان متن‌ها به راست */
+        }
+
+        .comment-box {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* اضافه کردن سایه به جعبه دیدگاه */
+            transition: transform 0.3s ease;
+            text-align: right; /* تنظیم راست‌چین برای متن دیدگاه‌ها */
+        }
+
+        .comment-box:hover {
+            transform: translateY(-5px); /* انیمیشن هنگام هاور */
+        }
+
+        .reply-box {
+            margin-top: 10px;
+            padding-left: 20px;
+            border-left: 4px solid #00796b;
+            background: #f1f1f1;
+            margin-bottom: 15px;
+        }
+
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment-form input, .comment-form textarea {
+            margin-bottom: 15px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            background-color: #fafafa;
+        }
+
+        .comment-form button {
+            padding: 12px;
+            background: #00796b;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .comment-form button:hover {
+            background-color: #004d40; /* تغییر رنگ دکمه هنگام هاور */
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<!-- Metadata برای بهبود SEO -->
+<meta name="description" content="پرستاری آسان؛ منبع کامل آموزشات پرستاری، خدمات پرستاری در منزل، مشاوره مهاجرت پرستاری، و اطلاعات درآمد پرستاران و فرصت‌های شغلی برای پرستاران بیمارستانی و دانشجویی">
+<meta name="keywords" content="پرستاری، دانشجوی پرستاری، پرستار بیمارستانی، پرستار دانشگاهی، آموزشات پرستاری، خدمات پرستاری، مراقبت پرستاری، ارشد پرستاری، مهارت‌های پرستاری، درآمد پرستار، مهاجرت پرستاری، مهاجرت پرستاری به آلمان، پرستاری در منزل، فرصت شغلی پرستاری، آزمایش‌ها و آزمون‌های پرستاری، مشکلات پرستاری، آزارهای پرستاری">
+
+<!-- Open Graph Tags برای اشتراک‌گذاری بهتر در شبکه‌های اجتماعی -->
+<meta property="og:title" content="پرستاری آسان - آموزشات و خدمات پرستاری برای دانشجویان و پرستاران">
+<meta property="og:description" content="پرستاری آسان؛ منابع کامل آموزش پرستاری، مشاوره مهاجرت، فرصت‌های شغلی، و خدمات پرستاری در منزل برای دانشجویان و پرستاران">
+<meta property="og:image" content="https://yoursite.com/image.jpg"> <!-- لینک تصویر مناسب برای سایت شما -->
+<meta property="og:url" content="https://yoursite.com">
+<meta property="og:type" content="website">
+
+<!-- Schema Markup برای توضیحات ساختاری -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  "name": "پرستاری آسان",
+  "description": "سایت آموزشی و خدماتی برای دانشجویان و پرستاران حرفه‌ای، شامل اطلاعات درآمد پرستاری، مهارت‌های پرستاری، مهاجرت پرستاری به آلمان و فرصت‌های شغلی پرستاران بیمارستانی و پرستاران دانشگاهی",
+  "url": "https://yoursite.com",
+  "keywords": [
+    "پرستاری", "دانشجوی پرستاری", "پرستار بیمارستانی", "پرستار دانشگاهی",
+    "مهارت‌های پرستاری", "آموزش پرستاری", "خدمات پرستاری در منزل",
+    "درآمد پرستار", "مهاجرت پرستاری", "مهاجرت پرستاری به آلمان",
+    "آزارهای پرستاری", "فرصت‌های شغلی پرستاری", "آزمون‌های پرستاری",
+    "دوره‌های پرستاری"
+  ],
+  "educationalCredentialAwarded": ["مدرک پرستاری", "آموزش پرستاری تخصصی"],
+  "subjectOf": {
+    "@type": "Course",
+    "name": "آموزش پرستاری و مهاجرت",
+    "description": "آموزش‌های تخصصی پرستاری، اطلاعات مهاجرت پرستاری به آلمان، و آمادگی آزمون‌های پرستاری و مهارت‌های مراقبت بیمارستانی و خانگی"
+  },
+  "sameAs": [
+    "https://www.instagram.com/yoursite",
+    "https://www.facebook.com/yoursite",
+    "https://www.linkedin.com/company/yoursite"
+  ]
+}
+</script>
+
+<!-- لینک‌سازی داخلی به صفحات اصلی سایت -->
+<div style="display:none;">
+  <a href="/services">خدمات پرستاری در منزل</a>
+  <a href="/education">آموزشات پرستاری برای دانشجویان و پرستاران</a>
+  <a href="/masters">مشاوره ارشد پرستاری و درآمد پرستاران</a>
+  <a href="/nursing-skills">مهارت‌های لازم پرستاری</a>
+  <a href="/nursing-migration">مهاجرت پرستاری به آلمان</a>
+  <a href="/income">درآمد و فرصت‌های شغلی پرستاری</a>
+  <a href="/workplace-challenges">مشکلات و آزارهای پرستاری</a>
+</div>
+
+<body>
+</html>
